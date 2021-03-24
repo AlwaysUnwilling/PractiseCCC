@@ -1,0 +1,24 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<windows.h>
+int main()
+{
+	char arr1[] = "Welcome To Bit !!!!!!";
+	char arr2[] = "#####################";
+	int left = 0;
+	int right = strlen(arr1) - 1;//int right=sizeof(arr1)/sizeof(arr1[0])-2 字符串末尾隐藏了字符"\0",而strlen()计算字符串长度（即字符串个数）时遇到\0自动停止，固不会包含\0;
+	while (left <= right)
+	{
+		arr2[left] = arr1[left];
+		arr2[right] = arr1[right];
+		printf("%s\n", arr2);
+		Sleep(1000);//休息1秒，1000ms=1s，括弧内单位是ms
+		system("cls");
+		left++;
+		right--;
+	}
+	printf("%s\n", arr2);
+	return 0;
+ }
