@@ -1,0 +1,154 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+递归函数
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	printf("hehe\n");
+	main();
+	return 0;
+}
+void print(int n)
+{
+	if (n > 9)
+	{
+		print(n / 10);
+	}
+	printf("%d ", n%10);
+}
+int main()
+{
+	unsigned int num = 0;
+	scanf("%d", &num);
+	print(num);
+	return 0;
+}
+int my_strlen(char* str)
+{
+	int count = 0;
+	while (*str != '\0')
+	{
+		count++;
+		str++;
+	}
+	return count;
+}
+用递归的思想实现
+把大事化小
+my_strlen("bit");
+1+my_strlen("it");
+1+1+mystrlen("t");
+1+1+1+my_strlen("");
+1+1+1+0=3;
+int my_strlen(char* str)
+{
+	if (*str != '\0')
+		return 1 + my_strlen(str + 1);
+	else
+		return 0;
+}
+int main()
+{
+	char arr[] = "bit";
+	//int len = strlen(arr);//求字符串的长度
+	//printf("%d\n",len);
+	int len = my_strlen(arr);
+	printf("len=%d\n", len);
+	return 0;
+}
+int count = 0;// 定义全局变量
+int fbo(int x)
+{
+	if (n == 3)//测试第三个斐波那契数列的数字的计算次数
+	{
+		count++;
+	}
+	if (x > 2)
+	{
+		return fbo(x - 1) + fbo(x - 2);
+	}
+	else
+		return 1;
+}
+int main()
+{
+	int N = 0;
+	int n = 0;
+	scanf("%d", &n);
+	N = fbo(n);
+	printf("%d\n", N);
+	printf("\ncount=%d\n", count);
+	return 0;
+}
+int fbo(int n)
+{
+	int a = 1;
+	int b = 1;
+	int c = 2;
+	int i = 0;
+	if (n <= 2)
+		return 1;
+	if(n > 2)
+	 {
+		for(i=1;i<=(n-2);i++)
+		{
+			c = a + b;
+			a = b;
+			b = c;
+		}
+		return c;
+	 }
+}
+int fbo(int n)
+{
+	int a = 1;
+	int b = 1;
+	int c = 0;
+	while (n > 2)
+	{
+		c = a + b;
+		a = b;
+		b = c;
+		n--;
+	}
+	return c;
+	if (n <= 2)
+		return 1;
+
+}
+int main()
+{
+	int n = 0;
+	int ret = 0;
+	scanf("%d", &n);
+	ret = fbo(n);
+	printf("ret=%d\n", ret);
+	return 0;
+}
+
+ 
+int Num(int n)
+{
+	switch (n)
+	{
+	case 1:
+		return 1;
+	case2:
+		return 2;
+	default:
+		break;
+	}
+	if (n > 2)
+	{
+		return Num(n - 1) + 2;
+	}
+}
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+	int ret = 0;
+	ret = Num(n);
+	printf("ret=%d\n", ret);
+	return 0;
+}
