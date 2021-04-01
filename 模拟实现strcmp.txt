@@ -1,0 +1,64 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<assert.h>
+void my_strcpy(char* arr, char* arr1)
+{
+	int i = 0;
+	int len = 0;
+	len = strlen(arr1);
+	for (i = 0; i < len; i++)
+	{
+		*(arr + i) = *(arr1 + i);
+	}
+}
+
+void my_strcpy(char* arr, char* arr1)           //**********************************较优解************************************************
+{
+	while (*arr++ = *arr1++)
+	{
+		;
+	}
+}
+
+void my_strcpy(char* arr, char* arr1)           //**********************************更优解************************************************
+{
+	if (arr != NULL && arr1 != NULL)//############################  判断指针是否为空指针，以防产生野指针;但这样不利于发现野指针的产生###################################
+	{
+		while (*arr++ = *arr1++)
+		{
+			;
+		}
+	}
+}
+
+void my_strcpy(char* arr, char* arr1)           //**********************************更更优解************************************************
+{
+	assert(arr != NULL && arr1 != NULL);//############################ 断言；如果判断为真，则会自动报错 ###################################
+	while (*arr++ = *arr1++)
+	{
+			;
+	}
+	
+}
+
+char* my_strcpy(char* arr, const char* arr1) //const “源（arr1）”不可被修改，否则报错   //**********************************最优解************************************************
+{
+	char* ret = arr;
+	assert(arr != NULL && arr1 != NULL);//############################ 断言；如果判断为真，则会自动报错 ###################################
+	while (*arr++ = *arr1++)
+	{
+			;
+	}
+	return ret;//返回的arr必须为arr数组的首地址，不可返回在循环过后的arr（地址已经发生变化）；
+}
+int main()
+{
+	//strcpy 字符串拷贝
+	char arr[] = "##################";
+	char arr1[] = "bit";
+	my_strcpy(arr, arr1);
+	//printf("arr=%s\n", arr);
+	printf("arr=%s\n", my_strcpy(arr, arr1));//函数的返回值作为另一个函数的参数，叫做链式访问
+	return 0;
+}
