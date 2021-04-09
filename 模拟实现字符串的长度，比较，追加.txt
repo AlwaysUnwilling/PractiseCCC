@@ -1,0 +1,143 @@
+ #define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<assert.h>
+*************************************求字符串的长度
+
+int my_strlen(char* arr)
+{
+	int count = 0;
+	assert(arr);
+	while (*arr++)
+	{
+		count++;
+	}
+	return count;
+}
+
+int my_strlen(char* str)
+{
+	char* ptr = str;
+	while (*str)
+	{
+		str++;
+	}
+	return str - ptr;
+}
+//
+//int my_strlen(char* str)               //  递归实现
+//{
+//	if (*str != 0)
+//	{
+//		return 1+my_strlen(str + 1);
+//	}
+//	else
+//		return 0;
+//}
+int main()
+{
+	char arr[] = "abc";
+	int ret = my_strlen(arr);
+	printf("%d\n", ret);
+	return 0;
+}
+
+ *****************************************字符串的追加
+
+void my_strcat(char* str,const char* ptr)
+{
+	assert(str && ptr);
+	while (*str)
+	{
+		str++;
+	}
+	while (*str++ = *ptr++)
+	{
+		;
+	}
+}
+
+void my_strncat(char* str, const char* ptr, int n)     //   ************模拟实现 strncat 
+{
+	assert(str && ptr);
+	int len = strlen(ptr);
+	while (*str != '\0')
+	{
+		str++;
+	}
+	if (len >= n)
+	{
+		while (n)
+		{
+			*str++ = *ptr++;
+			n--;
+		}
+		*(str + 1) = '\0';
+	}
+	else
+	{
+		while (len)
+		{
+			*str++ = *ptr++;
+			len--;
+		}
+		*(str + 1) = '\0';
+	}
+}
+int main()
+{
+	char arr1[30] = "abcdef";
+	char arr2[] = "xyz";
+	//my_strcat(arr1, arr2);
+	my_strncat(arr1, arr2, 5);
+	printf("%s\n", arr1);
+	return 0;
+}
+
+  *****************************************字符串的比较
+
+
+int my_strcmp(const char* str, const char* ptr)
+{
+	assert(str && ptr);
+	while (*str==*ptr)
+	{
+		if (*str==0)
+			return *str - *ptr;
+
+		str++;
+		ptr++;
+	}
+	return *str - *ptr;
+}
+
+int my_strncmp(const char* str, const char* ptr, int n)  ///****************************  模拟实现 strncmp
+{
+	assert(str && ptr);
+	if (n == 0)
+	{
+		return 0;
+	}
+	while (--n && (*str++ == *ptr++) && *str )
+	{
+		;
+	}
+
+		return *str - *ptr;
+
+}
+
+int main()
+{
+	char arr1[30] = "abcdef";
+	char arr2[] = "abcxyz";
+	/*int ret = my_strcmp(arr1, arr2);*/
+	int ret = my_strncmp(arr1, arr2, 7);
+	if (ret > 0)
+		printf("arr1>arr2");
+	else if (ret < 0)
+		printf("arr1<arr2");
+	else
+		printf("arr1=arr2");
+	return 0;
+}
