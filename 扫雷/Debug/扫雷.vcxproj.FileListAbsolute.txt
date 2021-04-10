@@ -1,0 +1,2 @@
+D:\MyCode\扫雷\Debug\扫雷.exe
+D:\MyCode\扫雷\Debug\扫雷.pdb
