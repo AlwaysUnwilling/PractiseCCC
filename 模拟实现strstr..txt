@@ -1,0 +1,121 @@
+  #define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<assert.h>
+*********************************strstr 
+
+const char* my_strstr(const char* p1, const char* p2)
+{
+	assert(p1 && p2);
+	const char* s1 = p1;
+	const char* s2 = p2;
+	const char* cur = p1;
+	if (*p2 == '\0')    // 判断p2字符串是否为空字符串（空字符串只有一个字符‘\0’,无法查找，所以直接返回P1的地址）
+	{
+		return p1;
+	}
+	else
+	{
+		while (*cur)
+		{
+			s1 = cur;
+			s2 = p2;
+			while ((*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))
+			{
+				s1++;
+				s2++;
+			}
+			if (*s2 == '\0')
+			{
+				return cur;   //找到了
+			}
+			cur++;
+		}
+		return NULL;
+	}
+}
+int main()
+{
+	const char* p1 = "abcdefhig";
+	const char* p2 = "def";
+	//const char* ret = strstr(p1, p2);
+	const char* ret = my_strstr(p1, p2);
+	if (ret == NULL)
+	{
+		printf("Can not find.");
+	}
+
+	else
+	{
+		printf("%s", ret);
+	}
+	
+	return 0;
+}
+
+ **********************************************  strtok
+
+int main()
+{
+	char arr[] = "123@456@.789";
+	const char* p = "@.";
+	char buf[1024] = { 0 };
+	char* ret = NULL;
+	strcmp(buf, arr);
+	for (ret = strtok(arr, p); ret != NULL; ret = strtok(NULL, p))    //strtok 会记住每次切割完后的地址，下次传进来NULL依然可以找到上次的位置进行下一次的切割
+	{
+		printf("%s\n", ret);
+	}
+	return 0;
+}
+
+ ******************************************* strerror 
+
+#include<errno.h>
+int main()
+{
+	/*char* str = strerror(errno);
+	printf("%s\n", str);*/
+	FILE* pf = fopen("vice president.text", "r");   // 打开文件“vice president”,打开方式是“可读”；
+	if (pf == NULL)
+	{
+		printf("%s\n", strerror(errno));
+	}
+	else
+	{
+		printf("Open The File Succeed.\n", pf);
+	}
+	return 0;
+}
+
+ ****************************** 内存函数 **********************  模拟实现memcpy
+
+
+void*  my_memcpy(void* arr2, const void* arr1, int n)
+{
+	assert(arr2 && arr1);
+	void* ret = arr2;
+	char* dest = (char*)arr2;
+	char* sour = (char*)arr1;
+	while (n)
+	{
+		*dest = *sour;
+		dest++;
+		sour++;
+		n--;
+	}
+	return ret;
+}
+struct student
+{
+	char name[20];
+	int age;
+};
+int main()
+{
+	struct student arr1[] = { {"张三",20},{"李四",30} };
+	struct student arr2[5] = { 0 };
+	my_memcpy(arr2, arr1, sizeof(arr1));
+
+	return 0;
+}
