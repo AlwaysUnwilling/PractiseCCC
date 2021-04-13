@@ -1,0 +1,142 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<assert.h>
+
+//  ****************************** 结构体
+
+//struct Stu
+//{
+//	char name[20];
+//	char tele[12];
+//	char sex[10];
+//	int age;
+//}s1,s2,s3,s4;  //  全局变量
+//struct Stu s6;  //  全局变量
+//int main()
+//{
+//	struct Stu s5;  // 局部变量
+//	return 0;
+//}
+
+
+//struct T
+//{
+//	double weight;
+//	short age;
+//};
+//struct S
+//{
+//	char c;
+//	struct T st;
+//	int a;
+//	double d;
+//	char arr[20];
+//};
+//int main()
+//{
+//	//struct S s = { 'c',100,3.14,"hello bit"};
+//	struct S s = { 'c',{55.6,18},100,3.14,"hello bit" };
+//	printf("%c %d %lf %s\n", s.c, s.a, s.d, s.arr);
+//	printf("%lf\n", s.st.weight);
+//	return 0;
+//}  
+
+
+//struct S1
+//{
+//	char c1;
+//	int a;
+//	char c2;
+//};
+//struct S2
+//{
+//	char c1;
+//	char c2;
+//	int a;
+//};
+//int main()
+//{
+//	struct S1 s1 = { 0 };
+//	struct S2 s2 = { 0 };
+//	printf("%d\n", sizeof(s1));
+//	printf("%d\n", sizeof(s2));
+//	return 0;
+//}
+
+//  **************************位段
+
+
+//struct S
+//{
+//	int _a : 2;   //  *************位段中冒号后面的数字是指结构体变量中（a,b,c,d）各自的大小，单位是：  # ！比特位！ #   位段后面的数字应该小于32（int是4个字节，4*8）；
+//	int _b : 5;
+//	int _c : 10;
+//	int _d : 30;
+//};
+//int main()
+//{
+//	struct S s;
+//	printf("%d\n", sizeof(s));
+//	return 0;
+//}
+
+//  ******************************* 枚举 （enum）
+
+//enum Sex
+//{
+//	male,
+//   female,
+//   secret
+//};
+//int main()
+//{
+//	enum Sex s = male;
+//	return 0;
+//}
+
+//  *******************************联合(体)，（共用体） union
+
+//union un
+//{
+//	char c;
+//	int i;
+//}; 
+//
+//int main()
+//{
+//	union un u = { 0 };
+//	printf("%d\n", sizeof(u));
+//	return 0;
+//}
+
+// ******面试题---求内存存储的大小端问题+++++++使用联合体实现
+
+//int main()
+//{
+//	int a = 0x11223344;//11高字节————————>44低字节
+//	// 低地址------------------------------------>高地址
+//	//[][][][][11][22][33][44][][][][][][][][][][][][]...大端字节序存储模式
+//	//[][][][][44][33][22][11][][][][][][][][][][][][]...小端字节序存储模式
+//	return 0;
+//}
+
+
+int check_sys()
+{
+	union un
+	{
+		char c;
+		int i;
+	}u;
+	u.i = 1;
+	return u.c; // 返回1表示小端，返回0表示大端  （联合体的成员公用同一块空间）
+}
+int main()
+{
+	int ret = check_sys();
+	if (ret == 1)
+		printf("小端存储\n");
+	else
+		printf("大端存储\n");
+}
