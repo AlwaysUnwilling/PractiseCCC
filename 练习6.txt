@@ -1,0 +1,32 @@
+//  题目：有1、2、3、4   四个数字，能组成多少个互不相同且无重复的数字？分别是多少？
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+int main()
+{
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	int arr[100] = { 0 };
+	int n = 0;
+	for (i = 1; i <= 4; i++)
+	{
+		for (j = 1; j <= 4; j++)
+		{
+			for (k = 1; k <= 4; k++)
+			{
+				if (i != j && i != k && j != k)
+				{
+					arr[n] = i * 100 + j * 10 + k;
+					n++;
+				}
+			}
+		}
+	}
+	printf("能组成%d个无重复数字的三位数\n", n);
+	printf("分别是：");
+	for (i = 0; i < n; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	return 0;
+}
