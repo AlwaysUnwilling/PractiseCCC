@@ -1,0 +1,183 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+//  题目：输入某年某月某日，判断这一天是这一年的第几天？
+
+int JudgeYear(int year)
+{
+    if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+    {
+        return 1;
+    }
+    else
+        return 0;
+}
+int main()
+{
+    int year = 0;
+    int month = 0;
+    int day = 0;
+    int num = 0;
+    printf("请输入年月日：");
+    scanf("%d%d%d", &year, &month, &day);
+    //  闰年的判断：能被400整除。或者能被4整除但不能被100整除；其余都是平年
+    int ret=JudgeYear(year);
+    if (0 < month <= 12)
+    {
+        switch (month)
+        {
+        case 1:
+            if (day <= 31) {
+                num = day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 2:
+            if (day <= 28 + ret)
+            {
+                num = 31 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 3:
+            if (day < 31)
+            {
+                num = 31 + 28 + ret + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 4:
+            if (day <= 30)
+            {
+                num = 31 + 28 + 31 + ret + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 5:
+            if (day <= 31)
+            {
+                num = 31 + 28 + ret + 31 + 30 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 6:
+            if (day <= 30)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 7:
+            if (day <= 31)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + 30 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 8:
+            if (day <= 31)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + 30 + 31 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 9:
+            if (day <= 30)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + 30 + 31 + 31 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 10:
+            if (day <= 31)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + 30 + 31 + 31 + 30 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 11:
+            if (day <= 30)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        case 12:
+            if (day <= 31)
+            {
+                num = 31 + 28 + ret + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + day;
+                printf("num=%d\n", num);
+            }
+            else
+            {
+                printf("日期（day）输入错误！");
+                return 0;
+            }
+            break;
+        default:
+            printf("输入错误！");
+            break;
+        }
+    }
+    else
+    {
+        printf("月份输入错误！");
+        return 0;
+    }
+    return 0;
+}
