@@ -1,0 +1,40 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+// 题目：打印楼梯；同时在楼梯上方打印俩个笑脸
+
+//int main()
+//{
+//    int i = 0;
+//    int j = 0;
+//    printf("%c%c\n", 1, 1);
+//    for (i = 0; i <= 10; i++)
+//    {
+//        for (j = 0; j <= i; j++)
+//        {
+//            printf("%c%c", 168, 128);
+//            
+//        }
+//        printf("\n");
+//    }
+//    return 0;
+//
+//}
+
+//题目：古典问题：有一对兔子，从出生后第三个月起每个月都生一对兔子，小兔子长到第三个月后每个月又生一对兔子。假如兔子都不死，问每个月兔子的总数是多少？
+
+int main()
+{
+    int i = 0;
+    int a = 1;
+    int b = 1;
+    for (i = 1; i < 20; i++)
+    {
+        printf("%d %d ", a, b);
+        a = a + b;
+        b = a + b;
+    }
+    
+
+    return 0;
+}
