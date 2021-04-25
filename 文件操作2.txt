@@ -1,0 +1,132 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<errno.h>
+//struct S
+//{
+//	int n;
+//	float score;
+//	char arr[10];
+//};
+//struct STU
+//{
+//	int n;
+//	float score;
+//	char arr[10];
+//};
+//int main()
+//{
+//	struct S s = { 100,3.14f,"bit" };
+//	struct STU stu = { 0 };
+//	FILE* pf = fopen("test.txt", "w");
+//	if (pf == NULL)
+//	{
+//		printf("%s", strerror(errno));
+//		return 0;
+//	}
+//	fprintf(pf, "%d %f %s", s.n, s.score, s.arr);
+//	fclose(pf);
+//	pf = NULL;
+//	FILE* str = fopen("test.txt", "r");
+//	if (str == NULL)
+//	{
+//		printf("FREAD:%s", strerror(errno));
+//		return 0;
+//	}
+//	fscanf(str, "%d %f %s", &(stu.n), &(stu.score), stu.arr);
+//	printf("%d %f %s\n", stu.n, stu.score, stu.arr);
+//	fclose(str);
+//	str = NULL;
+//	return 0;
+//}
+
+//int main()
+//{
+//	struct S s = { 0 };
+//	fscanf(stdin, "%d %f %s", &(s.n), &(s.score), s.arr);   //   stdin 从键盘输入
+//	fprintf(stdout, "%d %.2f %s\n", s.n, s.score, s.arr);  //    stdout  从屏幕输出
+//	return 0;
+//}
+
+//int main()
+//{
+//	struct S s = { 100,3.14,"abcdef" };
+//	struct S  tmp = { 0 };
+//	char buf[1024] = { 0 };//将s里面的内容转换成一个字符串，放入buf数组中
+//	sprintf(buf, "%d %f %s", s.n, s.score, s.arr);
+//	printf("%s\n", buf);
+//	// 将buf里的数据恢复到tmp中
+//	sscanf(buf, "%d %f %s", &(tmp.n), &(tmp.score), tmp.arr);
+//	printf("%d %f %s\n", tmp.n, tmp.score, tmp.arr);
+//	return 0;
+//}
+
+//struct S
+//{
+//	char name[20];
+//	int age;
+//	double score;
+//};
+//int main()
+//{
+//	struct S s = { "张三",20,100 };
+//	struct S tmp = { 0 };
+//	FILE* pf = fopen("peoin.txt", "wb");
+//	if (pf == NULL)
+//	{
+//		return 0;
+//	}
+//	fwrite(&s, sizeof(struct S), 1, pf);
+//	fclose(pf);
+//	pf = NULL;
+//	FILE* str=fopen("peoin.txt", "rb");
+//	if (str == NULL)
+//	{
+//		return 0;
+//	}
+//	fread(&tmp, sizeof(struct S), 1, str);
+//	printf("%s %d %.2lf\n", tmp.name, tmp.age, tmp.score);
+//	return 0;
+//}
+
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		return 0;
+//	}
+//	// 1.定位文件指针
+//	fseek(pf, -2, SEEK_END);
+//	int pos = ftell(pf);
+//	rewind(pf);//让文件指针回到起始位置
+//	printf("%d\n", pos);
+//	return 0;
+//}
+
+int main()
+{
+	int ch = 0;
+	FILE* pf = fopen("test2.txt", "r");
+	if (pf == NULL)
+	{
+		perror("Open File test2.txt");
+		return 0;
+	}
+	while ((ch = fgetc(pf)) != EOF)
+	{
+		putc(ch,pf);
+		
+	}
+	if (ferror(pf))
+	{
+		printf("error\n");
+	}
+	else if (feof(pf))
+	{
+		printf("end of file\n");
+	}
+	fclose(pf);
+	pf = NULL;
+	return 0;
+}
