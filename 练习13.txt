@@ -1,0 +1,84 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+//  题目：用条件运算符的嵌套来完成此题。学习成绩》=90分的同学用A表示，60-89分的同学用B表示，60分以下的用C来表示。
+//int main()
+//{
+//    int a = 0;
+//    int i = 0;
+//    printf("请输入成绩：");
+//    scanf("%d", &i);
+//    a = i >= 60 ? (i>=90?'A':'B') : 'C';
+//    printf("%c\n", a);
+//    return 0;
+//}
+
+// 题目：输入俩个正整数m和n，求其最大公约数和最小公倍数。
+
+//int Greatest_Common_Divisor(int m, int n)
+//{
+//    if (m >= n)
+//    {
+//        while (m % n)
+//        {
+//            n = m % n;
+//        }
+//        return n;
+//    }
+//    else
+//    {
+//        while (n % m)
+//        {
+//            m = n % m;
+//        }
+//        return m;
+//    }
+//}
+//int Smallest_Common_Multiple(int m, int n)
+//{
+//    return m * n / Greatest_Common_Divisor(m, n);
+//}
+//int main()
+//{
+//    int m = 0;
+//    int n = 0;
+//    printf("请输入俩个操作数：");
+//    scanf("%d%d", &m, &n);
+//    int Gcd=Greatest_Common_Divisor(m, n);
+//    int Scm=Smallest_Common_Multiple(m, n);
+//    printf("Gcd=%d  Scm=%d\n", Gcd, Scm);
+//    return 0;
+//}
+
+// 题目：输入一行字符串，分别统计出其中的英文字符、空格、数字、和其他字符的个数。
+
+int main()
+{
+    int num = 0;
+    int space = 0;
+    int letter = 0;
+    int others = 0;
+    int tmp = 0;
+    for (; (tmp = getchar()) != 10;)  //  输入enter后结束循环，换行的ASCII码是10，回车是13
+    {
+        if (tmp >= 65 && tmp <= 90 || tmp>=97 && tmp<=122)  //  字母的ASCII码范围
+        {
+            letter++;
+        }
+        else if (tmp == 32) // 空格的ASCII码
+        {
+            space++;
+        }
+        else if (tmp >= 48 && tmp <= 57)// 数字的ASCII码范围
+        {
+            num++;
+        }
+        else
+        {
+            others++;
+        }
+    }
+    printf("英文字母个数为：%d 数字个位为：%d 空格个数为：%d 其他字符个数为：%d \n", letter, num, space, others);
+    return 0;
+}
