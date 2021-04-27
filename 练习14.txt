@@ -1,0 +1,78 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+// 题目：求s=a+aa+aaa+aaaa+aaaaa+aa...a的值。其中a是一个数字，例如2+22+222+2222+22...222。几个数字相加由键盘控制
+//int Factorial(int m, int n) 
+//{
+//    int num = 1;
+//    int i = 1;
+//    for (i = 1; i <= n; i++)
+//    {
+//        num *= m;
+//    }
+//    return num;
+//}
+//int main()
+//{
+//    int a = 0;
+//    int s = 0;
+//    int n = 0;
+//    int i = 0;
+//    int tmp = 0;
+//    printf("请输入操作数a：");
+//    scanf("%d", &a);
+//    printf("请输入相加数的个数n：");
+//    scanf("%d", &n);
+//    for (i = 1; i <= n; i++)
+//    {
+//        tmp+=a;  // tmp为每一项的值
+//        s += tmp;         //s为总和
+//        a *= 10;        //a为最高位的值
+//    }
+//    printf("s=%d", s);
+//    return 0;
+//}
+
+// 题目：一个数字如果恰好等于它的因子之和，这个数就称为“完数”。例如6=1+2+3.编程找出 1000以内的所有完数。
+//int main()
+//{
+//    int i = 1;
+//    int j = 1;
+//    int tmp = 0;
+//    for (i = 1; i < 1000; i++)
+//    {
+//        for (j = 1; j < i; j++)
+//        {
+//            if (i % j == 0)
+//            {
+//                tmp += j;
+//            }
+//        }
+//        if (i == tmp)
+//        {
+//            printf("%d ", i);
+//        }
+//        tmp = 0;     //每次判断完毕后，要记得把tmp归0；方便下个数字的判断
+//    }
+//    return 0;
+//}
+
+// 题目：一个球从100米高度只有落下，每次落地后又反弹回原高度的一半再落下；求它第10次落地时，共经过多少米？第10次反弹多高？
+
+int main()
+{
+    int n = 10;
+    double h = 100;
+    int i = 0;
+    double l = 0;
+    double s = 100;
+    for (i = 2; i <= 10; i++)
+    {
+        l = h;
+        s += l;
+        h /= 2;
+    }
+    printf("%lf %lf\n", s,h/2);
+    return 0;
+}
