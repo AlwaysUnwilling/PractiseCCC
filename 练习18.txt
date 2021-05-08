@@ -1,0 +1,137 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+//题目：给一个不多于5位的正整数。要求：1.求它是几位数；2.逆序打印出各位数。
+//void Judge_N(int n)
+//{
+//    int count = 1;
+//    if (n / 10000)
+//    {
+//        count=5;
+//        printf("%d是%d位数\n%d %d %d %d %d\n",n,count,
+//            n % 10, n % 100 / 10, n % 1000 / 100, n % 10000 / 1000, n / 10000);
+//    }
+//    else if (n / 1000)
+//    {
+//        count = 4;
+//        printf("%d是%d位数\n%d %d %d %d\n", n, count, n % 10, n % 100 / 10, n % 1000 / 100, n / 1000);
+//    }
+//    else if (n / 100)
+//    {
+//        count = 3;
+//        printf("%d是%d位数\n%d %d %d\n", n, count, n % 10, n % 100 / 10, n / 100);
+//    }
+//    else if (n / 10)
+//    {
+//        count = 2;
+//        printf("%d是%d位数\n%d %d\n", n, count, n % 10, n/10);
+//    }
+//    else
+//    {
+//        printf("%d是%d位数。\n",n,count);
+//    }
+//}
+//int main()
+//{
+//    int n = 0;
+//    printf("请输入一个不多于5位的正整数：");
+//    scanf("%d", &n);
+//    Judge_N(n);
+//    return 0;
+//}
+
+//int main()
+//{
+//    int n = 0;
+//    int count = 0;
+//    int a = 0;
+//    printf("请输入一个不超过5位的正整数：");
+//    scanf("%d", &n);
+//    if (n / 10==0)
+//    {
+//        printf("%d是1位数！\n%d\n", n, n);
+//    }
+//    else
+//    {
+//        a = n / 10;
+//        for (count = 1; a != 0; count++)
+//        {
+//            a /= 10;
+//        }
+//        printf("%d是%d位数。\n", n, count);
+//        for (a = 0; a < count; a++)
+//        {
+//            printf("%d ", n % 10);
+//            n /= 10;
+//        }
+//        printf("\n");
+//    }
+//    return 0;
+//}
+//题目：一个5位数，判断它是不是回文数。即：12321是回文数，个位数与万位数相同，十位数与千位数相同。
+//void Judge_n(int n)
+//{
+//    if (n%10==n/10000 && n%100/10==n%10000/1000)
+//        printf("%d是回文数", n);
+//    else
+//        printf("%d不是回文数", n);
+//}
+//int main()
+//{
+//    int n = 11311;
+//    Judge_n(n);
+//    return 0;
+//}
+
+//题目：请输入星期几的第一个字母来判断是星期几。如果首字母相同，则继续判断第二个字母。
+int main()
+{
+    char n = 0;
+    printf("请输入首字母：");
+    do
+    {
+        switch (n = getchar())
+        {
+        case 'M':
+            printf("星期一\n");
+            break;
+        case 'T':
+            printf("请输入第二个字母：");
+            fflush(stdin);//清除缓存区的上次输入留下的回车键。若不清除，则下次getchar()得到的是上次输入留下的回车键造成错误。
+            if (n = getchar() == 'u')
+                printf("星期二\n");
+            else if (n = getchar() == 'h')
+                printf("星期四\n");
+            else
+            {
+                printf("第二个字符输入错误！请重新输入首字母：");
+                break;
+            }
+            break;
+        case 'W':
+            printf("星期三\n");
+            break;
+        case 'S':
+            printf("请输入第二个字母：");
+            fflush(stdin);
+            if (n = getchar() == 'a')
+                printf("星期六\n");
+            else if (n = getchar() == 'u')
+                printf("星期日\n");
+            else
+            {
+                printf("第二个字符输入错误！请重新输入首字母：");
+                break;
+            }
+            break;
+        case 'F':
+            printf("星期五\n");
+            break;
+        default:
+            printf("首字母输入错误！请重新输入首字母：");
+            break;
+        }
+    } while (n = getchar());
+    return 0;
+}
