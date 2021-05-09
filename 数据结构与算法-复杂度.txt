@@ -1,0 +1,49 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<malloc.h>
+#include<errno.h>
+#include<string.h>
+
+//long long Fibonacci_r(size_t N)   //递归实现斐波那契的第50项    速度太慢   效率低下
+//{
+//	return N < 2 ? N : Fibonacci_r(N - 1) + Fibonacci_r(N - 2);
+//}
+long long* Fibonacci(size_t N)     //改进
+{
+	long long* fibarray = (long long*)malloc(sizeof(long long) * (N+1));   //以空间换时间
+	if (fibarray == NULL)
+	{
+		printf("%s", strerror(errno));
+		return NULL;
+	}
+	else 
+	{
+		fibarray[0] = 0;
+		if (N == 0)     //如果N=0时，fibarray[1]会越界，所以直接返回fibarray结束。
+		{
+			return fibarray;
+		}
+		fibarray[1] = 1;
+		for (int i = 2; i <= N; i++)
+		{
+			fibarray[i] = fibarray[i - 1] + fibarray[i - 2];
+		}
+		return fibarray;
+	}
+	
+}
+int main()
+{
+	long long* fib = Fibonacci(50);
+	if (fib == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		printf("%lld\n", *(fib+50));
+	}
+	free(fib);
+	fib = NULL;
+	return 0;
+}
