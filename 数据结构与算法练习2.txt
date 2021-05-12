@@ -1,0 +1,82 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+void mergeSort(int* nums1, int* nums2, int nums2Size,int nums1Size)
+{
+	int* tmp = (int*)malloc(sizeof(int) * (nums2Size + nums1Size));
+	int nums1_ps = 0;
+	int nums2_ps = 0;
+	int i = 0;
+	while (nums1_ps<nums1Size && nums2_ps<nums2Size)
+	{
+		if (nums1[nums1_ps] <= nums2[nums2_ps])
+		{
+			tmp[i] = nums1[nums1_ps];
+			i++;
+			nums1_ps++;
+		}
+		else
+		{
+			tmp[i] = nums2[nums2_ps];
+			nums2_ps++;
+			i++;
+		}
+	}
+	if (nums1_ps == nums1Size)
+	{
+		while (nums2_ps < nums2Size)
+		{
+			tmp[i] = nums2[nums2_ps];
+			i++;
+			nums2_ps++;
+		}
+	}
+	else if(nums2_ps==nums2Size)
+	{
+		while (nums1_ps < nums1Size)
+		{
+			tmp[i] = nums1[nums1_ps];
+			i++;
+			nums1_ps++;
+		}
+	}
+	for (i = 0; i < nums2Size + nums1Size; i++)
+	{
+		nums1[i] = tmp[i];
+		printf("%d ", nums1[i]);
+	}
+	free(tmp);
+	tmp = NULL;
+}
+int main()
+{
+	int nums1[100] = { 1,3,5,7,9,11 };
+	int nums2[7] = { 2,4,6,8,10,12,14};
+	mergeSort(nums1, nums2, 7,6);
+	return 0;
+}
+// 题目：旋转数组：给定一个数组，将数组中的元素向右移动K个位置，其中k为非负整数。 进阶：1、尽可能想出多种方法；2、使用空间复杂度的O(1)的原地算法解决这个问题。
+//void move_k(int* nums, int k,int numsSize)
+//{
+//	while (k)
+//	{
+//		int tmp = nums[numsSize - 1];
+//		for (int i = 0; i < numsSize-1; i++)
+//		{
+//			nums[numsSize - 1 - i] = nums[numsSize - 2 - i];
+//		}
+//		nums[0] = tmp;
+//		k--;
+//	}
+//	for (int i = 0; i < numsSize; i++)
+//	{
+//		printf("%d ", nums[i]);
+//	}
+//}
+//int main()
+//{
+//	int nums[10] = { 2,4,6,8,0,1,3,9,5,7 };
+//	move_k(nums, 4,10);
+//	return 0;
+//}
