@@ -1,0 +1,67 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<string.h>
+#include<stdio.h>
+// 题目：一个整型数组nums里，除俩个数字只出现了一次外，其他数字都出现了俩次。请找出只出现一次的俩个数字。要求时间复杂度O（N），空间复杂度O（1）。
+
+void singleNumbers(int* nums, int numsSize)
+{
+	int i = 0;
+	int m = 0;
+	int x1 = 0;
+	int x2 = 0;
+	int tmp = 0;
+	for (i = 0; i < numsSize; i++)
+	{
+		tmp ^= nums[i];
+	}
+	for (i = 0; i < 32; i++)
+	{
+		if ((tmp & (1 << i))!= 0)
+		{
+			m = i;
+			break;
+		}
+	}
+	for (i = 0; i < numsSize; i++)
+	{
+		if ((nums[i] & (1 << m) )!= 0)
+		{
+			x1 ^= nums[i];
+		}
+		else
+			x2 ^= nums[i];
+	}
+	printf("%d %d", x1, x2);
+}
+int main()
+{
+	int i = 0;
+	int nums[10] = { 1,2,3,4,4,3,2,1,5,6 };
+	singleNumbers(nums, 10);
+
+	return 0;
+}
+
+// 题目：数组nums包含了从0到n的所有整数，但其中缺了一个，请编写代码找出缺少的那个数字。时间复杂度O（n）。
+
+//int missingleNumber(int* nums, int numsSize)
+//{
+//	int i = 0;
+//	int misNumber = 0;              //misNumber=0；因为0和任意数异或都不变
+//	for (i = 0; i < numsSize; ++i)
+//	{
+//		misNumber ^= nums[i];
+//	}
+//	for (i = 0; i <= numsSize; i++)
+//	{
+//		misNumber ^= i;
+//	}
+//	return misNumber;
+//}
+//int main()
+//{
+//	int nums[9] = { 0,1,2,3,4,5,6,8,9 };
+//	int ret=missingleNumber(nums, 9);
+//	printf("%d\n", ret);
+//	return 0;
+//}
