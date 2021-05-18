@@ -1,0 +1,209 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<assert.h>
+struct ListNode
+{
+	int data;
+	struct ListNode* next;
+};
+struct ListNode* BuyListNode(int x)
+{
+	struct ListNode* newnode = (struct ListNode*)malloc(sizeof(ListNode));
+	if (newnode == NULL)
+	{
+		printf("开辟内存失败\n");
+		exit(-1);
+	}
+	newnode->data = x;
+	newnode->next = NULL;
+	return newnode;
+}
+void ListNodePrint(struct ListNode* head)
+{
+	ListNode* cur = head;
+	while (cur!=NULL)
+	{
+		printf("%d->", cur->data);
+		cur = cur->next;
+	}
+	printf("NULL\n");
+}
+void ListNodePushBack(struct ListNode** head, int x)  //尾插
+{
+	struct ListNode* newnode = BuyListNode(x);
+	//1.链表为空
+	if (*head==NULL)
+	{
+		*head = newnode;
+	}
+	else
+		//2.链表中只有一个结点
+		//3.链表中有一个以上的结点
+	{
+		struct ListNode* tail = *head;
+		while (tail->next!=NULL)  //找尾
+		{
+			tail=tail->next;
+		}
+		tail->next= newnode;
+	}
+}
+void ListNodePushFront(struct ListNode** head, int x)
+{
+	struct ListNode* newnode = BuyListNode(x);
+	if (*head == NULL)  //空链表
+	{
+		*head = newnode;
+	}
+	else   //非空链表
+	{
+		ListNode* cur = *head;
+		*head = newnode;
+		(*head)->next = cur;
+	}
+}
+//题目：输入一个链表，输出该链表中倒数第k个结点。
+//struct ListNode* Return_k_Node(struct ListNode* head,int k)    //先让快指针先走K步，然后再让快慢指针一起走。
+//	                                                            //当快指针为NULL时，慢指针即为所求
+//{
+//	struct ListNode* slow = head;
+//	struct ListNode* fast = head;
+//	while (k--)   //k有可能大于整个链表的长度
+//	{
+//		if (fast)
+//			fast = fast->next;
+//		else
+//			return NULL;
+//	}
+//	do
+//	{
+//		slow = slow->next;
+//		fast = fast->next;
+//	} while (fast);
+//	return slow;
+//
+//}
+//void ListNodeTest4()
+//{
+//	struct ListNode* head = NULL;
+//	ListNodePushBack(&head, 1);
+//	ListNodePushBack(&head, 2);
+//	ListNodePushBack(&head, 3);
+//	ListNodePushBack(&head, 4);
+//	ListNodePushBack(&head, 4);
+//	ListNodePushBack(&head, 4);
+//	ListNodePrint(head);
+//	struct ListNode* ret = Return_k_Node(head,4);
+//	printf("%d\n", ret->data);
+//}
+//int main()
+//{
+//	ListNodeTest4();
+//	return 0;
+//}
+
+//题目：将俩个有序链表合并为一个有序链表，并返回。新链表是通过拼接俩个给定链表的所有结点组成的。
+struct ListNode* MergeListNode(struct ListNode* l1, struct ListNode* l2)    //先去一个小的下来做新链表的头，然后每次都去小的进行尾插
+{
+	if (l1 == NULL)
+		return l2;
+	if (l2 == NULL)
+		return l1;
+	struct ListNode* head = NULL;
+	struct ListNode* tail = NULL;
+	if (l1->data < l2->data)
+	{
+		head =tail= l1;
+		l1 = l1->next;
+	}
+	else
+	{
+		head = tail=l2;
+		l2 = l2->next;
+	}
+	while (l1 && l2)
+	{
+		if (l1->data < l2->data)
+		{
+			tail->next=l1;
+			l1 = l1->next;
+		}
+		else
+		{
+			tail->next = l2;	
+			l2 = l2->next;
+		}
+		tail = tail->next;
+	}
+	if (l1 == NULL)
+	{
+		tail->next = l2;
+	}
+	else
+		tail->next = l1;
+	return head;
+}
+//struct ListNode* MergeListNode(struct ListNode* l1, struct ListNode* l2)    //带哨兵位的头结点
+//{
+//	if (l1 == NULL)
+//		return l2;
+//	if (l2 == NULL)
+//		return l1;
+//	struct ListNode* head = NULL;
+//	struct ListNode* tail = NULL;
+//	head = tail = (ListNode*)malloc(sizeof(ListNode));
+//	if (head ==NULL || tail == NULL)
+//	{
+//		exit(-1);
+//	}
+//	while (l1 && l2)
+//	{
+//		if (l1->data < l2->data)
+//		{
+//			tail->next = l1;
+//			l1 = l1->next;
+//		}
+//		else
+//		{
+//			tail->next = l2;
+//			l2 = l2->next;
+//		}
+//		tail = tail->next;
+//	}
+//	if (l1 == NULL)
+//	{
+//		tail->next = l2;
+//	}
+//	else
+//		tail->next = l1;
+//	struct ListNode* realHead = head->next;
+//	free(head);
+//	return realHead;
+//}
+void ListNodeTest4()
+{
+	struct ListNode* l1 = NULL;
+	struct ListNode* l2 = NULL;
+	ListNodePushBack(&l1, 1);
+	ListNodePushBack(&l1, 1);
+	ListNodePushBack(&l1, 3);
+	ListNodePushBack(&l1, 5);
+	ListNodePushBack(&l1, 7);
+	ListNodePushBack(&l2, 0);
+	ListNodePushBack(&l2, 2);
+	ListNodePushBack(&l2, 4);
+	ListNodePushBack(&l2, 6);
+	ListNodePushBack(&l2, 8);
+	ListNodePushBack(&l2, 10);
+	ListNodePrint(l1);
+	ListNodePrint(l2);
+	struct ListNode* newhead = MergeListNode(l1, l2);
+	ListNodePrint(newhead);
+}
+int main()
+{
+	ListNodeTest4();
+	return 0;
+}
