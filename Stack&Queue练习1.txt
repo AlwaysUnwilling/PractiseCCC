@@ -1,0 +1,131 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<assert.h>
+#include<stdbool.h >
+typedef char STDataType;
+typedef struct Stack
+{
+    STDataType* a;
+    int top;
+    int capacity;
+}ST;
+void StackInit(ST* st)
+{
+    st->a = (STDataType*)malloc(sizeof(STDataType)*4);
+    if (st->a == NULL)
+    {
+        printf("malloc fail\n");
+        exit(-1);
+    }
+    st->capacity = 4;
+    st->top = 0;
+}
+void StackPush(ST* st, STDataType x)
+{
+    assert(st);
+    if (st->top == st->capacity)
+    {
+        STDataType* tmp = (STDataType*)realloc(st->a, st->capacity * 2 * sizeof(STDataType));
+        if (tmp == NULL)
+        {
+            printf("realloc fail\n");
+            exit(-1);
+        }
+        st->a = tmp;
+        st->capacity *= 2;
+    }
+    st->a[st->top] = x;
+    st->top++;
+}
+void StackPop(ST* st)
+{
+    assert(st);
+    assert(st->top > 0);
+    st->top--;
+}
+STDataType StackTop(ST* st)
+{
+    assert(st);
+    assert(st->top>0);
+    return st->a[st->top-1];
+}
+bool StackEmpty(ST* st)
+{
+    assert(st);
+    return st->top == 0;
+}
+int StackSize(ST* st)
+{
+    assert(st);
+    return st->top;
+}
+void StackDestroy(ST* st)
+{
+    assert(st);
+    free(st->a);
+    st->a = NULL;
+}
+//题目：给定一个只包括'(',')','{','}','[',']'的字符串s，判断字符串是否有效。
+   //   有效字符串需要满足：1.左括号必须用相同类型的右括号闭合。
+   // 2.左括号必须以正确的顺序闭合。
+
+bool JudParenthIsValid(char* s)
+{
+    ST st;
+    StackInit(&st);
+   while (*s != '\0')
+   {
+       switch (*s)
+       {
+       case '(':
+       case '[':
+       case '{':
+        {
+           StackPush(&st,*s);
+           ++s;
+           break;
+        }
+       case ')':
+       case ']':
+       case '}':
+        {
+           if (StackEmpty(&st))
+           {
+               StackDestroy(&st);
+               return false;
+           }
+           char top = StackTop(&st);
+           StackPop(&st);
+           if ((*s == ')' && top != '(') ||
+               (*s == ']' && top != '[') ||
+               (*s == '}' && top != '{'))
+           {
+               StackDestroy(&st);
+               return false;
+           }
+           else
+           {
+               s++;
+           }
+           break;
+        }
+        default :
+          break;
+       }
+   }
+   bool ret = StackEmpty(&st);
+   StackDestroy(&st);
+   return ret;
+}
+int main()
+{
+    char s[21] = "()";
+    bool ret = JudParenthIsValid(s);
+    if (ret == 0)
+        printf("字符串无效！\n");
+    else
+        printf("字符串有效\n");
+    return 0;
+}
