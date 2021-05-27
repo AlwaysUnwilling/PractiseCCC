@@ -1,0 +1,285 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<assert.h>
+#include<stdbool.h >
+typedef char STDataType;
+typedef struct Stack     //建栈
+{
+    STDataType* a;
+    int top;
+    int capacity;
+}ST;
+void StackInit(ST* st)
+{
+    st->a = (STDataType*)malloc(sizeof(STDataType)*4);
+    if (st->a == NULL)
+    {
+        printf("malloc fail\n");
+        exit(-1);
+    }
+    st->capacity = 4;
+    st->top = 0;
+}
+void StackPush(ST* st, STDataType x)
+{
+    assert(st);
+    if (st->top == st->capacity)
+    {
+        STDataType* tmp = (STDataType*)realloc(st->a, st->capacity * 2 * sizeof(STDataType));
+        if (tmp == NULL)
+        {
+            printf("realloc fail\n");
+            exit(-1);
+        }
+        st->a = tmp;
+        st->capacity *= 2;
+    }
+    st->a[st->top] = x;
+    st->top++;
+}
+void StackPop(ST* st)
+{
+    assert(st);
+    assert(st->top > 0);
+    st->top--;
+}
+STDataType StackTop(ST* st)
+{
+    assert(st);
+    assert(st->top>0);
+    return st->a[st->top-1];
+}
+bool StackEmpty(ST* st)
+{
+    assert(st);
+    return st->top == 0;
+}
+int StackSize(ST* st)
+{
+    assert(st);
+    return st->top;
+}
+void StackDestroy(ST* st)
+{
+    assert(st);
+    free(st->a);
+    st->a = NULL;
+}
+
+//题目：用队列实现栈：请你仅使用俩个队列实现一个后入先出的栈。并支持普通队列的全部四种操作（push、top、pop和empty）。
+     //实现MyStack类： 1.void push(int x),将元素压入栈顶；
+     //                2.int pop（）移除并返回栈顶元素。
+     //                3.int top（）返回栈顶元素。
+     //                4.boolean empty（）如果栈是空的，返回true，否则返回false。
+
+typedef struct
+{
+    Queue q1;
+    Queue q2;
+}MyStack;
+MyStack* myStackCreate()
+{
+    MyStack* ps = (MyStack*)malloc(sizeof(MyStack));
+    if (ps == NULL)
+    {
+        printf("MyStack malloc fail\n");
+        exit(-1);
+    }
+    QueueInit(&ps->q1);
+    QueueInit(&ps->q2);
+    return ps;
+}
+void myStackPush(MyStack* obj, QDataType x)
+{
+    assert(obj);
+    Queue* empty = &obj->q1;
+    Queue* nonempty = &obj->q2;
+    if (!QueueEmpty(&obj->q1))
+    {
+        Queue* empty = &obj->q2;
+        Queue* nonempty = &obj->q1;
+    }
+    QueuePush(nonempty, x);
+}
+int myStackPop(MyStack* obj)
+{
+   /* assert(obj);
+    if (QueueEmpty(&obj->q1))
+    {
+        while (QueueSize(&obj->q2) > 1)
+        {
+            QDataType x = QueueFront(&obj->q2);
+            QueuePop(&obj->q2);
+            QueuePush(&obj->q1, x);
+        }
+        QDataType x = QueueFront(&obj->q2);
+        QueuePop(&obj->q2);
+        return x;
+    }
+    else
+    {
+        while (QueueSize(&obj->q1) > 1)
+        {
+            QDataType x = QueueFront(&obj->q1);
+            QueuePop(&obj->q1);
+            QueuePush(&obj->q2, x);
+        }
+        QDataType x = QueueFront(&obj->q1);
+        QueuePop(&obj->q1);
+        return x;
+    }*/
+    assert(obj);
+    Queue* empty = &obj->q1;
+    Queue* nonempty = &obj->q2;
+    if (!QueueEmpty(&obj->q1))
+    {
+        Queue* empty = &obj->q2;
+        Queue* nonempty = &obj->q1;
+    }
+    while (QueueSize(nonempty) != 1)
+    {
+        QueuePush(empty, QueueFront(nonempty));
+        QueuePop(nonempty);
+    }
+    int ret = QueueFront(nonempty);
+    QueuePop(nonempty);
+    return ret;
+}
+int myStackTop(MyStack* obj)
+{
+    assert(obj);
+    assert(obj);
+    Queue* empty = &obj->q1;
+    Queue* nonempty = &obj->q2;
+    if (!QueueEmpty(&obj->q1))
+    {
+        Queue* empty = &obj->q2;
+        Queue* nonempty = &obj->q1;
+    }
+    return QueueBack(nonempty);
+}
+bool myStackEmpty(MyStack* obj)
+{
+    assert(obj);
+    return QueueEmpty(&obj->q1) && QueueEmpty(&obj->q2);
+}
+void myStackFree(MyStack* obj)
+{
+    assert(obj);
+    QueueDestroy(&obj->q1);
+    QueueDestroy(&obj->q2);
+    free(obj);
+    obj = NULL;
+}
+
+
+//题目：请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
+
+//实现 MyQueue 类：
+//
+//void push(int x) 将元素 x 推到队列的末尾
+//int pop() 从队列的开头移除并返回元素
+//int peek() 返回队列开头的元素
+//boolean empty() 如果队列为空，返回 true ；否则，返回 false
+//
+//
+//说明：
+//
+//你只能使用标准的栈操作 —— 也就是只有?push to top, peek / pop from top, size, 和?is empty?操作是合法的。
+//你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
+typedef struct {          
+    ST st1;          //定义俩个栈
+    ST st2;
+} MyQueue;
+
+/** Initialize your data structure here. */
+
+MyQueue* myQueueCreate() {
+     MyQueue* ps = (MyQueue*)malloc(sizeof(MyQueue)); //队列初始化
+    if (ps == NULL)
+    {
+        printf("MyQueue malloc fail\n");
+        exit(-1);
+    }
+    StackInit(&ps->st1);   //对俩个栈进行初始化
+    StackInit(&ps->st2);
+    return ps;
+}
+
+/** Push element x to the back of queue. */
+void myQueuePush(MyQueue* obj, int x) {
+    assert(obj);
+    ST* empty = &obj->st1;        //假设st1为空st2不为空；如果假设为假，empty、nonempty互换
+    ST* nonempty = &obj->st2;
+    if (!StackEmpty(&obj->st1))
+    {
+        ST* empty = &obj->st2;
+        ST* nonempty = &obj->st1;
+    }
+    StackPush(nonempty, x);      //把x压入不为空的栈中
+}
+
+/** Removes the element from in front of queue and returns that element. */
+int myQueuePop(MyQueue* obj) {
+    assert(obj);
+    ST* empty = &obj->st1;          
+    ST* nonempty = &obj->st2;
+    if (!StackEmpty(&obj->st1))
+    {
+        ST* empty = &obj->st2;
+        ST* nonempty = &obj->st1;
+    }
+    while (StackSize(nonempty))    //把不为空的栈里的元素头取压入为空的栈中
+    {
+        StackPush(empty, StackTop(nonempty));
+        StackPop(nonempty);
+    }
+    STDataType front = StackTop(empty);//头取空栈被压入完后的栈顶元素
+    StackPop(empty);    //删除front
+    while (StackSize(empty))   //将剩余元素从empty栈中元素（还原）压入nonempty中 
+    {                          //不还原会导致队列的顺序出错
+        StackPush(nonempty, StackTop(empty));
+        StackPop(empty);
+    }
+    return front;
+}
+
+/** Get the front element. */
+int myQueuePeek(MyQueue* obj) {
+    assert(obj);
+    ST* empty = &obj->st1;
+    ST* nonempty = &obj->st2;
+    if (!StackEmpty(&obj->st1))
+    {
+        ST* empty = &obj->st2;
+        ST* nonempty = &obj->st1;
+    }
+    while (StackSize(nonempty))   //非空栈全部压入空栈中
+    {
+        StackPush(empty, StackTop(nonempty));
+        StackPop(nonempty);
+    }
+    STDataType front = StackTop(empty);//头取被压入后的empty栈的栈顶元素
+    while (StackSize(empty))   //还原
+    {
+        StackPush(nonempty, StackTop(empty));
+        StackPop(empty);
+    }
+    return front;
+}
+
+/** Returns whether the queue is empty. */
+bool myQueueEmpty(MyQueue* obj) {
+    assert(obj);
+    return StackEmpty(&obj->st1) && StackEmpty(&obj->st2);//俩个栈都为空队列为空
+}
+
+void myQueueFree(MyQueue* obj) {
+    assert(obj);
+    StackDestroy(&obj->st1); //先释放队列里的俩个栈
+    StackDestroy(&obj->st2);
+    free(obj);//再释放队列
+    obj = NULL;
+}
