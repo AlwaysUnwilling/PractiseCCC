@@ -1,0 +1,223 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+typedef struct BinaryTreeNode* QDataType;
+struct QueueNode
+{
+	QDataType data;
+	struct QueueNode* next;
+};
+struct Queue
+{
+	QueueNode* head;
+	QueueNode* tail;
+};
+void QueueInit(Queue* q)
+{
+	assert(q);
+	q->head = q->tail = NULL;
+}
+void QueueDestroy(Queue* q)
+{
+	assert(q);
+	QueueNode* cur = q->head;
+	while (cur)
+	{
+		QueueNode* next = cur->next;
+		free(cur);
+		cur = next;
+	}
+	q->head = NULL;
+}
+void QueuePush(Queue* q, QDataType x)
+{
+	assert(q);
+	QueueNode* node = (QueueNode*)malloc(sizeof(QueueNode));
+	if (node == NULL)
+	{
+		printf("malloc fail\n");
+		exit(-1);
+	}
+	else
+	{
+		node->data = x;
+		node->next = NULL;
+	}
+	if (q->head == NULL)
+	{
+		q->tail = q->head = node;
+	}
+	else
+	{
+		q->tail->next = node;
+		q->tail = q->tail->next;
+	}
+}
+void QueuePop(Queue* q)
+{
+	assert(q);
+	assert(q->head);
+	QueueNode* next = q->head->next;
+	free(q->head);
+	q->head = next;
+}
+QDataType QueueFront(Queue* q)
+{
+	assert(q);
+	assert(q->head);
+	return q->head->data;
+}
+QDataType QueueBack(Queue* q)
+{
+	assert(q);
+	assert(q->head);
+	return q->tail->data;
+}
+int QueueSize(Queue* q)
+{
+	assert(q);
+	int size = 0;
+	QueueNode* cur = q->head;
+	while (cur)
+	{
+		size++;
+		cur = cur->next;
+	}
+	return size;
+}
+bool QueueEmpty(Queue* q)
+{
+	assert(q);
+	return q->head == NULL;
+}
+//二叉树
+typedef char BTDataType;
+typedef struct BinaryTreeNode
+{
+	struct BinaryTreeNode* left;
+	struct BinaryTreeNode* right;
+	BTDataType data;
+}BTNode;
+void PrevOrder(BTNode* root)
+{
+	if (root == NULL)
+	{
+		printf("NULL ");
+		return;
+	}
+	printf("%c ", root->data);
+	PrevOrder(root->left);
+	PrevOrder(root->right);
+}
+void InOrder(BTNode* root)
+{
+	if (root == NULL)
+	{
+		printf("NULL ");
+		return;
+	}
+	InOrder(root->left);
+	printf("%c ", root->data);
+	InOrder(root->right);
+}
+void PosOrder(BTNode* root)
+{
+	if (root == NULL)
+	{
+		printf("NULL ");
+		return;
+	}
+	InOrder(root->left);
+	InOrder(root->right);
+	printf("%c ", root->data);
+}
+int TreeSize(BTNode* root)  //结点个数
+{
+	return root == NULL ? 0 : TreeSize(root->left) + TreeSize(root->right) + 1;
+}
+int TreeLeafSize(BTNode* root) //叶子数
+{
+	/*if (root == NULL)
+		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return 1;
+	return TreeLeafSize(root->left) + TreeLeafSize(root->right);*/
+	if (root == NULL)
+		return 0;
+	return (root->left == NULL && root->right == NULL) ? 1 : TreeLeafSize(root->left) + TreeLeafSize(root->right);
+}
+void LevelOrder(BTNode* root)  //层序遍历  上一层带下一层
+{
+	Queue q;
+	QueueInit(&q);
+	if (root)
+	{
+		QueuePush(&q, root);
+	}
+	while(!QueueEmpty(&q))
+	{
+		BTNode* front = QueueFront(&q);
+		QueuePop(&q);
+		if (front->left)
+		{
+			QueuePush(&q, front->left);
+		}
+		if (front->right)
+		{
+			QueuePush(&q, front->right);
+		}
+		printf("%c ", front->data);
+	}
+	printf("\n");
+}
+int main()
+{
+	BTNode* A = (BTNode*)malloc(sizeof(BTNode));
+	A->data = 'A';
+	A->left = NULL;
+	A->right = NULL;
+
+	BTNode* B = (BTNode*)malloc(sizeof(BTNode));
+	B->data = 'B';
+	B->left = NULL;
+	B->right = NULL;
+
+	BTNode* C = (BTNode*)malloc(sizeof(BTNode));
+	C->data = 'C';
+	C->left = NULL;
+	C->right = NULL;
+
+	BTNode* D = (BTNode*)malloc(sizeof(BTNode));
+	D->data = 'D';
+	D->left = NULL;
+	D->right = NULL;
+
+	BTNode* E = (BTNode*)malloc(sizeof(BTNode));
+	E->data = 'E';
+	E->left = NULL;
+	E->right = NULL;
+
+	A->left = B;
+	A->right = C;
+	B->left = D;
+	B->right = E;
+
+	PrevOrder(A);
+	printf("\n");
+	InOrder(A);
+	printf("\n");
+	PosOrder(A);
+	printf("\n");
+	printf("%d\n", TreeSize(A));
+	printf("%d\n", TreeSize(B));
+	printf("%d\n", TreeSize(C));
+	printf("%d\n", TreeSize(D));
+	printf("%d\n", TreeSize(E));
+	printf("%d\n", TreeLeafSize(A));
+	LevelOrder(A);
+
+	return 0;
+}
