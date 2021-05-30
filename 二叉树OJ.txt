@@ -1,0 +1,384 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+typedef char BTDataType;
+typedef struct BinaryTreeNode
+{
+	struct BinaryTreeNode* left;
+	struct BinaryTreeNode* right;
+	BTDataType data;
+}BTNode;
+//题目：二叉树的前序遍历：给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+//void prevOrder(BTNode* root,int* a,int* pi)
+//{
+//	if (root == NULL)
+//		return;
+//	a[*pi] = root->data;
+//	++(*pi);
+//	prevOrder(root->left, a, pi);
+//	prevOrder(root->right, a, pi);
+//}
+//int BTNodeSize(BTNode* root)
+//{
+//	if (root == NULL)
+//		return 0;
+//	return BTNodeSize(root->left) + BTNodeSize(root->right)+1;
+//}
+//int* preorderTraversal(BTNode* root, int* returnSize) 
+//{
+//	int* a = (int*)malloc(BTNodeSize(root)*sizeof(int));
+//	if (a == NULL)
+//	{
+//		printf("malloc fail\n");
+//		exit(-1);
+//	}
+//	int i = 0;
+//	prevOrder(root,a,&i);
+//	*returnSize = i;
+//	return a;
+//}
+//int main()
+//{
+//	BTNode* A = (BTNode*)malloc(sizeof(BTNode));
+//	A->data = 'A';
+//	A->left = NULL;
+//	A->right = NULL;
+//
+//	BTNode* B = (BTNode*)malloc(sizeof(BTNode));
+//	B->data = 'B';
+//	B->left = NULL;
+//	B->right = NULL;
+//
+//	BTNode* C = (BTNode*)malloc(sizeof(BTNode));
+//	C->data = 'C';
+//	C->left = NULL;
+//	C->right = NULL;
+//
+//	BTNode* D = (BTNode*)malloc(sizeof(BTNode));
+//	D->data = 'D';
+//	D->left = NULL;
+//	D->right = NULL;
+//
+//	BTNode* E = (BTNode*)malloc(sizeof(BTNode));
+//	E->data = 'E';
+//	E->left = NULL;
+//	E->right = NULL;
+//
+//	A->left = B;
+//	A->right = C;
+//	B->left = D;
+//	B->right = E;
+//	int size = 0;
+//	int* arr=preorderTraversal(A , &size);
+//	for (int i = 0; i < size; i++)
+//	{
+//		printf("%c ", arr[i]);
+//	}
+//	printf("\n");
+//	free(arr);
+//	arr = NULL;
+//	return 0;
+//}
+//题目：二叉树的中序遍历：给定一个二叉树的根节点 root ，返回它的 中序 遍历。
+//void InOrder(BTNode* root, char* a, int* pi)
+//{
+//	if (root == NULL)
+//		return;
+//	InOrder(root->left, a, pi);
+//	a[*pi] = root->data;
+//	++(*pi);
+//	InOrder(root->right, a, pi);
+//}
+//int BTNodeSize(BTNode* root)
+//{
+//	if (root == NULL)
+//		return 0;
+//	return BTNodeSize(root->left) + BTNodeSize(root->right) + 1;
+//}
+//char* InorderTraversal(BTNode* root, int* returnSize)
+//{
+//	char* a = (char*)malloc(BTNodeSize(root) * sizeof(char));
+//	if (a == NULL)
+//	{
+//		printf("malloc fail\n");
+//		exit(-1);
+//	}
+//	int i = 0;
+//	InOrder(root, a, &i);
+//	*returnSize = i;
+//	return a;
+//}
+//int main()
+//{
+//	BTNode* A = (BTNode*)malloc(sizeof(BTNode));
+//	A->data = 'A';
+//	A->left = NULL;
+//	A->right = NULL;
+//
+//	BTNode* B = (BTNode*)malloc(sizeof(BTNode));
+//	B->data = 'B';
+//	B->left = NULL;
+//	B->right = NULL;
+//
+//	BTNode* C = (BTNode*)malloc(sizeof(BTNode));
+//	C->data = 'C';
+//	C->left = NULL;
+//	C->right = NULL;
+//
+//	BTNode* D = (BTNode*)malloc(sizeof(BTNode));
+//	D->data = 'D';
+//	D->left = NULL;
+//	D->right = NULL;
+//
+//	BTNode* E = (BTNode*)malloc(sizeof(BTNode));
+//	E->data = 'E';
+//	E->left = NULL;
+//	E->right = NULL;
+//
+//	A->left = B;
+//	A->right = C;
+//	B->left = D;
+//	B->right = E;
+//	int size = 0;
+//	char* arr = InorderTraversal(A, &size);
+//	for (int i = 0; i < size; i++)
+//	{
+//		printf("%c ", arr[i]);
+//	}
+//	printf("\n");
+//	free(arr);
+//	arr = NULL;
+//	return 0;
+//}
+//题目：二叉树的后序遍历：给定一个二叉树，返回它的 后序 遍历。
+//void PosOrder(BTNode* root, char* a, int* pi)
+//{
+//	if (root == NULL)
+//		return;
+//	PosOrder(root->left, a, pi);
+//	PosOrder(root->right, a, pi);
+//	a[*pi] = root->data;
+//	++(*pi);
+//}
+//int BTNodeSize(BTNode* root)
+//{
+//	if (root == NULL)
+//		return 0;
+//	return BTNodeSize(root->left) + BTNodeSize(root->right) + 1;
+//}
+//char* PosOrderTraversal(BTNode* root, int* returnSize)
+//{
+//	char* a = (char*)malloc(BTNodeSize(root) * sizeof(char));
+//	if (a == NULL)
+//	{
+//		printf("malloc fail\n");
+//		exit(-1);
+//	}
+//	int i = 0;
+//	PosOrder(root, a, &i);
+//	*returnSize = i;
+//	return a;
+//}
+//int main()
+//{
+//	BTNode* A = (BTNode*)malloc(sizeof(BTNode));
+//	A->data = 'A';
+//	A->left = NULL;
+//	A->right = NULL;
+//
+//	BTNode* B = (BTNode*)malloc(sizeof(BTNode));
+//	B->data = 'B';
+//	B->left = NULL;
+//	B->right = NULL;
+//
+//	BTNode* C = (BTNode*)malloc(sizeof(BTNode));
+//	C->data = 'C';
+//	C->left = NULL;
+//	C->right = NULL;
+//
+//	BTNode* D = (BTNode*)malloc(sizeof(BTNode));
+//	D->data = 'D';
+//	D->left = NULL;
+//	D->right = NULL;
+//
+//	BTNode* E = (BTNode*)malloc(sizeof(BTNode));
+//	E->data = 'E';
+//	E->left = NULL;
+//	E->right = NULL;
+//
+//	A->left = B;
+//	A->right = C;
+//	B->left = D;
+//	B->right = E;
+//	int size = 0;
+//	char* arr = PosOrderTraversal(A, &size);
+//	for (int i = 0; i < size; i++)
+//	{
+//		printf("%c ", arr[i]);
+//	}
+//	printf("\n");
+//	free(arr);
+//	arr = NULL;
+//	return 0;
+//}
+//题目：二叉树的最大深度:给定一个二叉树，找出其最大深度。
+//二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+//说明 : 叶子节点是指没有子节点的节点。
+int maxDepth(BTNode* root) 
+{
+	if (root == NULL)
+		return 0;
+	int leftmaxDepth = maxDepth(root->left);
+	int rightmaxDepth = maxDepth(root->right);
+	return leftmaxDepth > rightmaxDepth ? leftmaxDepth + 1 : rightmaxDepth + 1;
+}
+//int main()
+//{
+//	BTNode* A = (BTNode*)malloc(sizeof(BTNode));
+//	A->data = 'A';
+//	A->left = NULL;
+//	A->right = NULL;
+//
+//	BTNode* B = (BTNode*)malloc(sizeof(BTNode));
+//	B->data = 'B';
+//	B->left = NULL;
+//	B->right = NULL;
+//
+//	BTNode* C = (BTNode*)malloc(sizeof(BTNode));
+//	C->data = 'C';
+//	C->left = NULL;
+//	C->right = NULL;
+//
+//	BTNode* D = (BTNode*)malloc(sizeof(BTNode));
+//	D->data = 'D';
+//	D->left = NULL;
+//	D->right = NULL;
+//
+//	BTNode* E = (BTNode*)malloc(sizeof(BTNode));
+//	E->data = 'E';
+//	E->left = NULL;
+//	E->right = NULL;
+//
+//	A->left = B;
+//	A->right = C;
+//	B->left = D;
+//	B->right = E;
+//	int size = maxDepth(A);
+//	printf("%d\n", size);
+//    return 0;
+//}
+
+//题目：平衡二叉树:给定一个二叉树，判断它是否是高度平衡的二叉树。
+//本题中，一棵高度平衡二叉树定义为：
+//一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
+bool isBalanced(BTNode* root) 
+{
+	if (root == NULL)
+		return true;
+	int leftDepth = maxDepth(root->left);
+	int rightDepth = maxDepth(root->right);
+	return abs(leftDepth - rightDepth) < 2 && isBalanced(root->left)
+		&& isBalanced(root->right);
+}
+//int main()
+//{
+//	BTNode* A = (BTNode*)malloc(sizeof(BTNode));
+//	A->data = 'A';
+//	A->left = NULL;
+//	A->right = NULL;
+//
+//	BTNode* B = (BTNode*)malloc(sizeof(BTNode));
+//	B->data = 'B';
+//	B->left = NULL;
+//	B->right = NULL;
+//
+//	BTNode* C = (BTNode*)malloc(sizeof(BTNode));
+//	C->data = 'C';
+//	C->left = NULL;
+//	C->right = NULL;
+//
+//	BTNode* D = (BTNode*)malloc(sizeof(BTNode));
+//	D->data = 'D';
+//	D->left = NULL;
+//	D->right = NULL;
+//
+//	BTNode* E = (BTNode*)malloc(sizeof(BTNode));
+//	E->data = 'E';
+//	E->left = NULL;
+//	E->right = NULL;
+//
+//	A->left = B;
+//	A->right = C;
+//	B->left = D;
+//	B->right = E;
+//	if (isBalanced(A))
+//		printf("True\n");
+//	else
+//		printf("False\n");
+//	return 0;
+//}
+
+//题目：二叉树遍历:描述
+//编一个程序，读入用户输入的一串先序遍历字符串，根据此字符串建立一个二叉树（以指针方式存储）。
+//例如如下的先序遍历字符串： ABC##DE#G##F### 其中“#”表示的是空格，空格字符代表空树。
+//建立起此二叉树以后，再对二叉树进行中序遍历，输出遍历结果。
+//输入描述：
+//输入包括1行字符串，长度不超过100。
+//输出描述：
+//可能有多组测试数据，对于每组数据， 输出将输入字符串建立二叉树后中序遍历的序列，每个字符后面都有一个空格。 每个输出结果占一行。
+typedef struct TreeNode
+{
+	TreeNode* left;
+	TreeNode* right;
+	char val;
+}TreeNode;
+TreeNode* creatTreeNode(char* str, int* pi)
+{
+	assert(str);
+	if (str[*pi] == '#')
+	{
+		++(*pi);
+		return NULL;
+	}
+	TreeNode* root = (TreeNode*)malloc(sizeof(TreeNode));
+	if (root == NULL)
+	{
+		printf("malloc fail\n");
+		exit(-1);
+	}
+	root->val = str[*pi];
+	++(*pi);
+	root->left=creatTreeNode(str,pi);
+	root->right=creatTreeNode(str,pi);
+	return root;
+}
+void InOrder(TreeNode* root)
+{
+	if (root==NULL)
+		return;
+	InOrder(root->left);
+	printf("%c ", root->val);
+	InOrder(root->right);
+}
+void TreeNodeDestroy(TreeNode* root)
+{
+	if (root == NULL)
+		return;
+	TreeNodeDestroy(root->left);
+	TreeNodeDestroy(root->right);
+	free(root);
+}
+int main()
+{
+	char str[100] = { 0 };
+	scanf("%s", str);
+	int i = 0;
+	TreeNode* root=creatTreeNode(str,&i);
+	InOrder(root);
+	TreeNodeDestroy(root);
+	root = NULL;
+	return 0;
+}
