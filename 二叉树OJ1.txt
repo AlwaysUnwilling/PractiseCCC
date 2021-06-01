@@ -1,0 +1,88 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#include<stdbool.h>
+struct TreeNode
+{
+	struct TreeNode* left;
+	struct TreeNode* right;
+	int val;
+}BTNode;
+//题目：翻转一棵二叉树。
+struct TreeNode* invertTree(struct TreeNode* root){
+    if(root==NULL)
+    return root;
+    struct TreeNode* tmp=root->left;
+    root->left=root->right;
+    root->right=tmp;
+    root->left=invertTree(root->left);
+    root->right=invertTree(root->right);
+     return root;
+}
+ 
+//题目：给你两棵二叉树的根节点 p 和 q ，编写一个函数来检验这两棵树是否相同。
+
+如果两个树在结构上相同，并且节点具有相同的值，则认为它们是相同的。
+bool isSameTree(struct TreeNode* p, struct TreeNode* q){
+    if(p==NULL && q==NULL)
+    return true;
+    if(p!=NULL && q==NULL)
+    return false;
+    if(p==NULL && q!=NULL)
+    return false;
+    return p->val==q->val && isSameTree(p->left,q->left)
+           && isSameTree(p->right,q->right);
+
+}
+//题目：如果二叉树每个节点都具有相同的值，那么该二叉树就是单值二叉树。
+
+只有给定的树是单值二叉树时，才返回 true；否则返回 false。
+bool isUnivalTree(struct TreeNode* root){
+    if(root==NULL)
+    return true;
+    if(root->left && root->val!=root->left->val)
+    return false;
+    if(root->right && root->val!=root->right->val)
+    return false;
+    return isUnivalTree(root->left)
+           && isUnivalTree(root->right);
+}
+int main()
+{
+	struct TreeNode* A= (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	A->data = 1;
+	A->left = NULL;
+	A->right = NULL;
+
+	struct TreeNode* B = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	B->data = 2;
+	B->left = NULL;
+	B->right = NULL;
+
+	struct TreeNode* C = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	C->data = 3;
+	C->left = NULL;
+	C->right = NULL;
+
+	struct TreeNode* D = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	D->data = 4;
+	D->left = NULL;
+	D->right = NULL;
+
+	struct TreeNode* E = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+	E->data = 5;
+	E->left = NULL;
+	E->right = NULL;
+
+	A->left = B;
+	A->right = C;
+	B->left = D;
+	B->right = E;
+               invertTree(A);
+               isUnivalTree(A);
+
+
+	return 0;
+}
