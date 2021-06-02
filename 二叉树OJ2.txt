@@ -1,0 +1,43 @@
+//题目：给定一个二叉树，检查它是否是镜像对称的。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+struct TreeNode* turnTree(struct TreeNode* root)
+{
+    if(root==NULL)
+    return NULL;
+    struct TreeNode* rootleft=root->left;
+    root->left=turnTree(root->right);
+    root->right=turnTree(rootleft);
+    return root;
+}
+bool isSameTree(struct TreeNode* t1,struct TreeNode* t2)
+{
+    if(t1==NULL && t2==NULL)
+    return true;
+    if(t1==NULL && t2!=NULL)
+    return false;
+    if(t1!=NULL && t2==NULL)
+    return false;
+    return t1->val==t2->val 
+           && isSameTree(t1->left,t2->left)
+           && isSameTree(t1->right,t2->right);
+}
+bool isSymmetric(struct TreeNode* root){
+    if(root==NULL)
+    return true;
+    if(root->left==NULL && root->right==NULL)
+    return true;
+    if(root->left==NULL && root->right!=NULL)
+    return false;
+    if(root->left!=NULL && root->right==NULL)
+    return false;
+    struct TreeNode* rootleft=turnTree(root->left);
+    return isSameTree(rootleft,root->right);
+}
