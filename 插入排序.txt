@@ -1,0 +1,80 @@
+#pragma once
+#include<stdio.h>
+void InsertSort(int* a, int n);
+void ShellSort(int* a, int n);
+#define _CRT_SECURE_NO_WARNINGS 1
+#include"Sort.h"
+void InsertSort(int* a, int n)
+{
+	for (int i = 0; i < n - 1; i++)
+	{
+		int end = i;
+		int tmp = a[end + 1];
+		while (end >= 0)
+		{
+			if (tmp < a[end])
+			{
+				a[end + 1] = a[end];
+				end--;
+			}
+			else
+				break;
+		}
+		a[end + 1] = tmp;
+	}
+}
+void ShellSort(int* a, int n)
+{
+	int gap = n;
+	while (gap > 1)
+	{
+		gap = gap / 3 + 1;
+		for (int i = 0; i < n - gap; i++)
+		{
+			int end = i;
+			int tmp = a[end + gap];
+			while (end >= 0)
+			{
+				if (tmp < a[end])
+				{
+					a[end + gap] = a[end];
+					end -= gap;
+				}
+				else
+					break;
+			}
+			a[end+gap] = tmp;
+		}
+	}
+	
+}
+#define _CRT_SECURE_NO_WARNINGS 1
+#include"Sort.h"
+void PrintArry(int* a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", a[i]);
+	}
+	printf("\n");
+}
+void InsertSortTest()
+{
+	int a[] = { 9,5,2,3,7,6,21,6,42,4,0,6,4,7,8,1 };
+	PrintArry(a, sizeof(a) / sizeof(int));
+	InsertSort(a, sizeof(a) / sizeof(int));
+	PrintArry(a, sizeof(a) / sizeof(int));
+}
+void ShellSortTest()
+{
+	int a[] = { 9,5,2,3,7,6,21,6,42,4,0,6,4,7,8,1 };
+	PrintArry(a, sizeof(a) / sizeof(int));
+	ShellSort(a, sizeof(a) / sizeof(int));
+	PrintArry(a, sizeof(a) / sizeof(int));
+}
+int main()
+{
+	InsertSortTest();
+	ShellSortTest();
+	return 0;
+}
