@@ -1,0 +1,155 @@
+#include<stdio.h>
+#include<assert.h>
+typedef char STDataType;
+typedef struct Stack
+{
+	STDataType* a;
+	int top;
+	int capacity;
+}ST;
+void StackInit(ST* st)
+{
+	st->a = (STDataType*)malloc(sizeof(STDataType) * 4);
+	if (st->a == NULL)
+	{
+		printf("malloc fail\n");
+		exit(-1);
+	}
+	st->capacity = 4;
+	st->top = 0;
+}
+void StackPush(ST* st, STDataType x)
+{
+	assert(st);
+	if (st->top == st->capacity)
+	{
+		STDataType* tmp = (STDataType*)realloc(st->a, st->capacity * 2 * sizeof(STDataType));
+		if (tmp == NULL)
+		{
+			printf("realloc fail\n");
+			exit(-1);
+		}
+		st->a = tmp;
+		st->capacity *= 2;
+	}
+	st->a[st->top] = x;
+	st->top++;
+}
+void StackPop(ST* st)
+{
+	assert(st);
+	assert(st->top > 0);
+	st->top--;
+}
+STDataType StackTop(ST* st)
+{
+	assert(st);
+	assert(st->top > 0);
+	return st->a[st->top - 1];
+}
+bool StackEmpty(ST* st)
+{
+	assert(st);
+	return st->top == 0;
+}
+int StackSize(ST* st)
+{
+	assert(st);
+	return st->top;
+}
+void StackDestroy(ST* st)
+{
+	assert(st);
+	free(st->a);
+	st->a = NULL;
+}
+void QuickSortNonR(int* a, int left, int right)
+{
+	assert(a);
+	Stack st;
+	StackInit(&st);
+	StackPush(&st, right);
+	StackPush(&st, left);
+	while (!StackEmpty(&st))
+	{
+		int begin = StackTop(&st);
+		StackPop(&st);
+		int end = StackTop(&st);
+		StackPop(&st);
+		int div = PartSort3(a, begin, end);
+		if (div + 1 < end)
+		{
+			StackPush(&st, end);
+			StackPush(&st, div + 1);
+		}
+		if (begin < div - 1)
+		{
+			StackPush(&st, div - 1);
+			StackPush(&st, begin);
+		}
+	}
+      StackDestroy(&st);
+}
+
+void _MergeSort(int* a, int left, int right, int* tmp)
+{
+	if (left >= right)
+		return;
+	int mid = (left + right) / 2;
+	_MergeSort(a, left, mid, tmp);
+	_MergeSort(a, mid+1, right, tmp);
+	//归并[left,mid]和[mid+1,right]有序
+	int begin1 = left, end1 = mid;
+	int begin2 = mid+1, end2 = right;
+	int index = begin1;
+	while (begin1 <= end1 && begin2 <= end2)
+	{
+		if (a[begin1] < a[begin2])
+			tmp[index++] = a[begin1++];
+		else
+			tmp[index++] = a[begin2++];
+	}
+	while (begin1 <= end1)
+		tmp[index++] = a[begin1++];
+	while (begin2 <= end2)
+		tmp[index++] = a[begin2++];
+	//归并完成后把归并好的数据从tmp拷贝回原数组
+	for (int i = left; i <= right; i++)
+		a[i] = tmp[i];
+}
+void MergeSort(int* a, int n)
+{
+	assert(a);
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	if (tmp == NULL)
+	{
+		printf("malloc fail\n");
+		exit(-1);
+	}
+	_MergeSort(a, 0, n - 1, tmp);
+	free(tmp);
+	tmp == NULL;
+}
+void QuickSortNonRTest() 
+{
+	int a[] = { 9,5,2,3,7,6,21,6,42,4,0,6,4,7,8,1 };
+	PrintArry(a, sizeof(a) / sizeof(int));
+	QuickSortNonR(a, 0, sizeof(a) / sizeof(int) - 1);
+	printf("QuickSortNonR:");
+	PrintArry(a, sizeof(a) / sizeof(int));
+}
+void MergeSortTest()
+{
+	int a[] = { 9,5,2,3,7,6,21,6,42,4,0,6,4,7,8,1 };
+	PrintArry(a, sizeof(a) / sizeof(int));
+	MergeSort(a, sizeof(a) / sizeof(int));
+	printf("MergeSort:");
+	PrintArry(a, sizeof(a) / sizeof(int));
+}
+int main()
+{
+
+	QuickSortNonRTest();
+	MergeSortTest();
+	return 0;
+}
