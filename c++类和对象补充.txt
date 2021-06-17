@@ -1,0 +1,88 @@
+//static 的特性
+//1. 静态成员为所有类对象所共享，不属于某个具体的实例
+//2. 静态成员变量必须在类外定义，定义时不添加static关键字
+//3. 类静态成员即可用类名::静态成员或者对象.静态成员来访问
+//4. 静态成员函数没有隐藏的this指针，不能访问任何非静态成员
+//5. 静态成员和类的普通成员一样，也有public、protected、private3种访问级别，也可以具有返回值
+//【问题】
+//1. 静态成员函数可以调用非静态成员函数吗？不可以
+// 因为：在类里面静态成员函数没有this指针，所以无法访问（调用）非静态成员（成员函数和成员变量）
+//2. 非静态成员函数可以调用类的静态成员函数吗？ 可以  
+// 因为：非静态成员函数要想调用类的静态成员函数，只要突破类域和访问限定符就可以调用。类域+访问限定符=封装
+// 【提醒】static成员函数，没有this指针，不使用对象就可以调用，调用方式：类名::func();  在类里面声明的static 成员，必须在类外定义，定义是不添加static ，但要著名成员的类域所属，例如：int 类名::成员；
+//题目(剑指offer)：求1 + 2 + 3 + ... + n    描述:
+//求1 + 2 + 3 + ... + n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A ? B : C）不能使用递归
+class Sum
+{
+public:
+    Sum()
+    {
+        _sum += _i;
+        _i++;
+    }
+    static int GetSum()
+    {
+        return _sum;
+    }
+    static void sumInit()
+    {
+         _i = 1;
+        _sum = 0;
+    }
+private:
+    static int _i;
+    static int _sum;
+};
+int Sum::_i = 1;
+int Sum::_sum = 0;
+class Solution {
+public:
+    int Sum_Solution(int n) {
+        Sum::sumInit();
+        //Sum a[n];
+        Sum* p = new Sum[n];
+        return Sum::GetSum();
+    }
+};  
+
+//友元：友元类  友元函数  ：在类外面可以访问类里面private限制的成员
+using namespace std;
+class Date
+{
+    friend void f(Date& d);//友元函数:不受访问限定符限制 
+    friend ostream& operator<<(ostream& out, const Date& d);
+public:
+    void Print()
+    {
+        cout << _year << "-" << _month << "-" << _day << endl;
+    }
+    //void operator<<(ostream& out) //这里d抢了cout的位置，隐藏的this指针，默认排在左操作数，首位，而ostream& out 被默认为右操作数
+    //{
+    //    out << _year << "/" << _month << "/" << _day << endl;
+    //}
+private:
+	int _year=0;  //这里不叫初始化，是声明。后面赋值是对构造函数的全缺省赋值  c++11中支持
+	int _month=1;
+	int _day=1;
+};
+void f(Date& d)
+{
+    d._year = 10;
+    cout << d._year << endl;
+}
+ostream& operator<<(ostream& out,const Date& d)
+   {
+       out << d._year << "/" << d._month << "/" << d._day << endl;
+       return out;
+   }
+int main()
+{
+    Date d;
+    Date d1;
+    f(d);
+    cout << d; //  operator<<(cout,d); 要想实现这样可读性强的代码。可以使用友元函数来实现  
+    //d << cout;  //d.operator(cout) 这样写可读性差，习惯上我们写作cout<<d这种类型。但是如果用重载运算符函数实现起来就会变得可读性差
+    cout << d << d1;// 要支持这样输出，得让函数有返回值
+    return 0;
+}
+//cout是ostream 类型的对象out  ：ostream out;
