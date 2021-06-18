@@ -1,0 +1,296 @@
+//友元：友元类  友元函数  ：在类外面可以访问类里面private限制的成员
+using namespace std;
+//class Date
+//{
+//    friend void f(Date& d);//友元函数:不受访问限定符限制 
+//    friend ostream& operator<<(ostream& out, const Date& d);
+//    friend istream& operator >> (istream& in, Date& d);
+//public:
+//    void Print()
+//    {
+//        cout << _year << "-" << _month << "-" << _day << endl;
+//    }
+//    //void operator<<(ostream& out) //这里d抢了cout的位置，隐藏的this指针，默认排在左操作数，首位，而ostream& out 被默认为右操作数
+//    //{
+//    //    out << _year << "/" << _month << "/" << _day << endl;
+//    //}
+//private:
+//	int _year=0;  //这里不叫初始化，是声明。后面赋值是对构造函数的全缺省赋值  c++11中支持
+//	int _month=1;
+//	int _day=1;
+//};
+//void f(Date& d)
+//{
+//    d._year = 10;
+//    cout << d._year << endl;
+//}
+//ostream& operator<<(ostream& out,const Date& d)
+//   {
+//       out << d._year << "/" << d._month << "/" << d._day << endl;
+//       return out;
+//   }
+//istream& operator >> (istream& in, Date& d)
+//{
+//    in >> d._year >> d._month >> d._day;
+//    return in;
+//}
+//int main()
+//{
+//    Date d;
+//    Date d1;
+//    f(d);
+//    cout << d; //  operator<<(cout,d); 要想实现这样可读性强的代码。可以使用友元函数来实现  
+//    //d << cout;  //d.operator(cout) 这样写可读性差，习惯上我们写作cout<<d这种类型。但是如果用重载运算符函数实现起来就会变得可读性差
+//    cout << d << d1 << endl;;// 要支持这样输出，得让函数有返回值
+//    cin >> d >> d1;
+//    cout << d << d1 << endl;
+//    return 0;
+//}
+//友元函数可以直接访问类的私有成员，它是定义在类外部的普通函数，不属于任何类，但需要在类的内部声
+//明，声明时需要加friend关键字。说明：1.友元函数可访问类的私有和保护成员，但不是类的成员函数；
+//                                    2.友元函数不能用const修饰；
+                                     //3.友元函数可以在类定义的任何地方声明，不受类访问限定符限制；
+                                     //4.一个函数可以是多个类的友元函数
+                                     //5.友元函数的调用与普通函数的调用和原理相同
+//cout是ostream 类型的对象out  ：ostream out; cin是istream 类型的对象in :istream in
+// 友元类：友元类的所有成员函数都可以是另一个类的友元函数，都可以访问另一个类中的非公有成员。
+//友元关系是单向的，不具有交换性。
+//比如上述Time类和Date类，在Time类中声明Date类为其友元类，那么可以在Date类中直接访问Time
+//类的私有成员变量，但想在Time类中访问Date类中私有的成员变量则不行。
+//友元关系不能传递
+//如果B是A的友元，C是B的友元，则不能说明C时A的友元。
+//class Date; // 前置声明
+//class Time
+//{
+//    friend class Date; // 声明日期类为时间类的友元类，则在日期类中就直接访问Time类中的私有成员变量
+//public:
+//    Time(int hour = 0, int minute = 0, int second = 0)
+//        : _hour(hour)
+//        , _minute(minute)
+//        , _second(second)
+//    {}
+//
+//private:
+//    int _hour;
+//    int _minute;
+//    int _second;
+//};
+//class Date
+//{
+//public:
+//    Date(int year = 1900, int month = 1, int day = 1)
+//        : _year(year)
+//        , _month(month)
+//        , _day(day)
+//    {}
+//
+//    void SetTimeOfDate(int hour, int minute, int second)
+//    {
+//        // 直接访问时间类私有的成员变量
+//        _t._hour = hour;
+//        _t._minute = minute;
+//        _t._second = second;
+//    }
+//
+//private:
+//    int _year;
+//    int _month;
+//    int _day;
+//    Time _t;
+//};
+//
+////内部类：概念：如果一个类定义在另一个类的内部，这个内部类就叫做内部类。注意此时这个内部类是一个独立的
+////类，它不属于外部类，更不能通过外部类的对象去调用内部类。外部类对内部类没有任何优越的访问权限。
+////注意：内部类就是外部类的友元类。注意友元类的定义，内部类可以通过外部类的对象参数来访问外部类中
+////的所有成员。但是外部类不是内部类的友元。
+////特性：
+////1. 内部类可以定义在外部类的public、protected、private都是可以的。
+////2. 注意内部类可以直接访问外部类中的static、枚举成员，不需要外部类的对象 / 类名。
+////3. sizeof(外部类) = 外部类，和内部类没有任何关系。
+//class A {
+//private:
+//    static int k;
+//    int h;
+//public:
+//    class B
+//    {
+//    public:
+//        void foo(const A& a)
+//        {
+//            cout << k << endl;//OK
+//            cout << a.h << endl;//OK
+//        }
+//    };
+//};
+//int A::k = 1;
+//int main()
+//{
+//    A::B b;
+//    b.foo(A());
+//
+//    return 0;
+//}
+
+//题目：计算日期到天数转换
+//描述
+//根据输入的日期，计算是这一年的第几天。
+//
+//
+//输入描述：
+//输入一行，每行空格分割，分别是年，月，日
+//
+//输出描述：
+//输出是这一年的第几天
+//#include<iostream>
+//using namespace std;
+//class Date
+//{
+//    friend istream& operator>>(istream& in, Date& d);
+//public:
+//    Date(int year = 0, int month = 1, int day = 1)
+//        :_year(year)
+//        , _month(month)
+//        , _day(day)
+//    {}
+//    int GetMonthDays(int year, int month)
+//    {
+//        int SumDays = 0;
+//        int MonthDays[13] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+//        if (month > 2)
+//        {
+//            if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+//            {
+//                MonthDays[2] = 29;
+//            }
+//
+//            while (--month)
+//            {
+//                SumDays += MonthDays[month];
+//            }
+//            return SumDays;
+//
+//        }
+//        else
+//            return MonthDays[--month];
+//    }
+//    int JudeWhichDay()
+//    {
+//        return GetMonthDays(_year, _month) + _day;
+//    }
+//private:
+//    int _year;
+//    int _month;
+//    int _day;
+//};
+//
+//istream& operator>>(istream& in, Date& d)
+//{
+//    in >> d._year >> d._month >> d._day;
+//    return in;
+//}
+//int main()
+//{
+//    Date d;
+//    cin >> d;
+//    cout << d.JudeWhichDay() << endl;
+//    return 0;
+//}
+//
+//日期差值
+//描述
+//有两个日期，求两个日期之间的天数，如果两个日期是连续的我们规定他们之间的天数为两天
+//输入描述：
+//有多组数据，每组数据有两行，分别表示两个日期，形式为YYYYMMDD
+//输出描述：
+//每组数据输出一行，即日期差值
+#include<iostream>
+using namespace std;
+class Date
+{
+    friend istream& operator>>(istream& in, Date& d);
+public:
+    Date(int year = 0, int month = 1, int day = 1)
+        :_year(year)
+        , _month(month)
+        , _day(day)
+    {}
+    int GetMonthDays(int year, int month)
+    {
+        int MonthDays[13] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+        if (month == 2 && (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)))
+            return 29;
+        else
+            return MonthDays[month];
+    }
+    Date& operator+=(int day)
+    {
+        _day += day;
+        while (_day > GetMonthDays(_year, _month))
+        {
+            _month++;
+            if (_month > 12)
+            {
+                _year++;
+                _month = 1;
+            }
+            _day -= GetMonthDays(_year, _month);
+        }
+        return *this;
+    }
+    Date& operator++()
+    {
+        *this += 1;
+        return *this;
+    }
+    bool operator>(const Date& d2)
+    {
+        if (_year > d2._year) return true;
+        else if (_year == d2._year && _month > d2._month)  return true;
+        else if (_year == d2._year && _month == d2._month && _day > d2._day)  return true;
+        return false;
+    }
+    bool operator!=(const Date& d2)
+    {
+        if (_year == d2._year
+            && _month == d2._month
+            && _day == d2._day)
+            return false;
+        else
+            return true;
+    }
+    int operator-(const Date& d2)
+    {
+        int n = 1;
+        Date min = *this;
+        Date max = d2;
+        if (*this > d2)
+        {
+            min = d2;
+            max = *this;
+         
+        }
+        while (min != max)
+        {
+            ++min;
+            n++;
+        }
+        return n;
+    }
+private:
+    int _year;
+    int _month;
+    int _day;
+};
+istream& operator>>(istream& in, Date& d)
+{
+    in >> d._year >> d._month >> d._day;
+    return in;
+}
+int main()
+{
+    Date d1;
+    Date d2;
+    cin >> d1 >> d2;
+    cout << (d1 - d2) << endl;
+    return 0;
+}
