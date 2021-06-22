@@ -1,0 +1,152 @@
+题目：奇偶链表
+给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+
+请尝试使用原地算法完成。你的算法的空间复杂度应为 O(1)，时间复杂度应为 O(nodes)，nodes 为节点总数。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/odd-even-linked-list
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+typedef struct ListNode* QDataType;
+struct QueueNode
+{
+    QDataType data;
+    struct QueueNode* next;
+};
+struct Queue
+{
+    struct QueueNode* head;
+    struct QueueNode* tail;
+};
+void QueueInit(struct Queue* q)
+{
+    assert(q);
+    q->head = q->tail = NULL;
+}
+void QueueDestroy(struct Queue* q)
+{
+    assert(q);
+    struct QueueNode* cur = q->head;
+    while (cur)
+    {
+        struct QueueNode* next = cur->next;
+        free(cur);
+        cur = next;
+    }
+    q->head = NULL;
+}
+void QueuePush(struct Queue* q, QDataType x)
+{
+    assert(q);
+    struct QueueNode* node = (struct QueueNode*)malloc(sizeof(struct QueueNode));
+    if (node == NULL)
+    {
+        printf("malloc fail\n");
+        exit(-1);
+    }
+    else
+    {
+        node->data = x;
+        node->next = NULL;
+    }
+    if (q->head == NULL)
+    {
+        q->tail = q->head=node;
+    }
+    else
+    {
+        q->tail->next = node;
+        q->tail = q->tail->next;
+    }
+}
+void QueuePop(struct Queue* q)
+{
+    assert(q);
+    assert(q->head);
+    struct QueueNode* next = q->head->next;
+    free(q->head);
+    q->head = next;
+}
+QDataType QueueFront(struct Queue* q)
+{
+    assert(q);
+    assert(q->head);
+    return q->head->data;
+}
+QDataType QueueBack(struct Queue* q)
+{
+    assert(q);
+    assert(q->head);
+    return q->tail->data;
+}
+int QueueSize(struct Queue* q)
+{
+    assert(q);
+    int size = 0;
+    struct QueueNode* cur = q->head;
+    while (cur)
+    {
+        size++;
+        cur = cur->next;
+    }
+    return size;
+}
+bool QueueEmpty(struct Queue* q)
+{
+    assert(q);
+    return q->head == NULL;
+}
+struct ListNode* oddEvenList(struct ListNode* head){
+    if(head==NULL || head->next==NULL || head->next->next==NULL)   return head;
+    struct Queue q;
+    QueueInit(&q);
+    struct ListNode* newhead=(struct ListNode*)malloc(sizeof(struct ListNode));
+    if(newhead==NULL)
+    {
+        printf("newhead malloc fail\n");
+        exit(-1);
+    }
+    struct ListNode* tail=newhead;
+    tail->next=NULL;
+    struct ListNode* cur=head;
+    while(cur)
+    {
+        QueuePush(&q,cur);
+        if(cur->next==NULL)
+        {
+            break;
+        }
+        else
+         cur=cur->next->next;
+    }
+    cur=head->next;
+    while(cur)
+    {
+        QueuePush(&q,cur);
+         if(cur->next==NULL)
+        {
+            break;
+        }
+        else
+         cur=cur->next->next;
+    }
+    while(!QueueEmpty(&q))
+    {
+        tail->next=QueueFront(&q);
+        QueuePop(&q);
+        tail=tail->next;
+    }
+    tail->next=NULL;
+    head=newhead->next;
+    free(newhead);
+    newhead=NULL;
+    QueueDestroy(&q);
+    return head;
+}
