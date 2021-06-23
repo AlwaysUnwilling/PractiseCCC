@@ -1,0 +1,126 @@
+题目：K 个一组翻转链表
+给你一个链表，每?k?个节点一组进行翻转，请你返回翻转后的链表。
+
+k?是一个正整数，它的值小于或等于链表的长度。
+
+如果节点总数不是?k?的整数倍，那么请将最后剩余的节点保持原有顺序。
+
+进阶：
+
+你可以设计一个只使用常数额外空间的算法来解决此问题吗？
+你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/reverse-nodes-in-k-group
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+typedef struct ListNode* STDataType;
+typedef struct Stack
+{
+    STDataType* a;
+    int top;
+    int capacity;
+}ST,Stack;
+void StackInit(ST* st)
+{
+    st->a = (STDataType*)malloc(sizeof(STDataType)*4);
+    if (st->a == NULL)
+    {
+        printf("malloc fail\n");
+        exit(-1);
+    }
+    st->capacity = 4;
+    st->top = 0;
+}
+void StackPush(ST* st, STDataType x)
+{
+    assert(st);
+    if (st->top == st->capacity)
+    {
+        STDataType* tmp = (STDataType*)realloc(st->a, st->capacity * 2 * sizeof(STDataType));
+        if (tmp == NULL)
+        {
+            printf("realloc fail\n");
+            exit(-1);
+        }
+        st->a = tmp;
+        st->capacity *= 2;
+    }
+    st->a[st->top] = x;
+    st->top++;
+}
+void StackPop(ST* st)
+{
+    assert(st);
+    assert(st->top > 0);
+    st->top--;
+}
+STDataType StackTop(ST* st)
+{
+    assert(st);
+    assert(st->top>0);
+    return st->a[st->top-1];
+}
+bool StackEmpty(ST* st)
+{
+    assert(st);
+    return st->top == 0;
+}
+int StackSize(ST* st)
+{
+    assert(st);
+    return st->top;
+}
+void StackDestroy(ST* st)
+{
+    assert(st);
+    free(st->a);
+    st->a = NULL;
+}
+struct ListNode* reverseKGroup(struct ListNode* head, int k){
+    if(head==NULL || head->next==NULL)  return head;
+    struct ListNode* cur=head;
+    int count=0;
+    while(cur)
+    {
+        ++count;
+        cur=cur->next;
+    }
+    if(k>count)  return head;
+    int n =count/k;
+    cur=head;
+    struct ListNode* tmphead=(struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode* tail=tmphead;
+    tail->next=NULL;
+    Stack st;
+    StackInit(&st);
+    while(n--)
+    {
+        int size=k;
+        while(size--)
+        {
+            StackPush(&st,cur);
+            cur=cur->next;
+        }
+        
+        while(!StackEmpty(&st))
+        {
+            tail->next=StackTop(&st);
+            StackPop(&st);
+            tail=tail->next;
+        }
+    }
+    tail->next=cur;
+    head=tmphead->next;
+    free(tmphead);
+    tmphead=NULL;
+    StackDestroy(&st);
+    return head;
+}
