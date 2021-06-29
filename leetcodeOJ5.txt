@@ -1,0 +1,69 @@
+//题目：反转字符串 II
+给定一个字符串 s 和一个整数 k，你需要对从字符串开头算起的每隔?2k 个字符的前 k 个字符进行反转。
+
+如果剩余字符少于 k 个，则将剩余字符全部反转。
+如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/reverse-string-ii
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+class Solution {
+public:
+    void reverse(string& s,int start,int end)
+    {
+        while(start<end)
+        {
+            swap(s[start++],s[end--]);
+        }
+    }
+    string reverseStr(string s, int k) {
+      if(k==0)  return s;
+      int start=0, end=k-1;
+      int n=s.size()/(2*k);
+      while(n--)
+      {
+        reverse(s,start,end);
+        start+=2*k;
+        end+=2*k;
+      }
+      int tmp=s.size()%(2*k);
+      if(tmp>=k)
+      {
+          reverse(s,start,end);
+          return s;
+      }
+      else
+      {
+          end=s.size()-1;
+          reverse(s,start,end);
+          return s;
+      }
+    }
+};
+
+//题目：反转字符串中的单词 III
+给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
+class Solution {
+public:
+    void reverse(string& s,int begin,int end)
+    {
+        while(begin<end)
+        {
+            swap(s[begin++],s[end--]);
+        }
+    }
+    string reverseWords(string s) {
+        size_t pos=0;
+        int begin=0;
+        int end=0;
+        while(s.find(' ',pos)!=string::npos)
+        {
+            begin=pos;
+            end=s.find(' ',pos)-1;
+            reverse(s,begin,end);
+            pos=s.find(' ',pos)+1;
+        }
+        reverse(s,pos,s.size()-1);
+        return s;
+    }
+};
