@@ -1,0 +1,96 @@
+//题目：只出现一次的数字
+给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+说明：
+你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/single-number
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+//for循环遍历
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        size_t i=0;
+        int val=0;
+        for(i=0;i<nums.size();++i)
+        {
+            val^=nums[i];
+        }
+        return val;
+    }
+};
+//范围for
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int val=0;
+        for(auto e:nums)
+        {
+            val^=e;
+        }
+        return val;
+    }
+};
+//题目：只出现一次的苏州II：
+给你一个整数数组 nums ，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次 。请你找出并返回那个只出现了一次的元素。
+方法1：
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+      int val=0;
+      int a[32]={0};
+      for(auto e:nums)
+      {
+          int i=0;
+          while(i<32)
+          {
+            if((e>>i)&1)
+            {
+                a[i]++;
+            }
+            ++i;
+          }
+      }
+
+      for(int i=31;i>0;--i)
+      {
+          if(a[i]%3==1)
+          {
+            val|=1; 
+          }
+          val=val<<1;
+      }
+      if(a[0]%3==1)
+      {
+          val|=1;
+      }
+      return val;
+    }
+};
+//方法2
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+      int val=0;
+      int a[32]={0};
+      //统计出nums中所有数的32个位中各个为1的个数
+      for(auto e:nums)
+      {
+          for(int i=0;i<32;++i)
+          {
+              if(e&(1<<i))
+              {
+                  a[i]++;
+              }
+          }
+      }
+      for(int i=0;i<32;++i)
+      {
+          if(a[i]%3==1)
+          {
+              val|=(1<<i);
+          }
+      }
+      return val;
+    }
+};
+
