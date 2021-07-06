@@ -1,0 +1,148 @@
+//题目：最小栈
+设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+push(x) —— 将元素 x 推入栈中。
+pop()?—— 删除栈顶的元素。
+top()?—— 获取栈顶元素。
+getMin() —— 检索栈中的最小元素。
+
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+
+    }
+    
+    void push(int val) {
+         st.push(val);
+         if(minst.empty() || minst.top()>=val)
+         minst.push(val);
+    }
+    
+    void pop() {
+         if(minst.top()==st.top())
+         minst.pop();
+         st.pop();
+    }
+    
+    int top() {
+         return st.top();
+    }
+    
+    int getMin() {
+         return minst.top();
+    }
+    stack<int> st;
+    stack<int> minst;
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+
+//题目：栈的压入、弹出序列
+描述
+输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+class Solution {
+public:
+    bool IsPopOrder(vector<int> pushV,vector<int> popV) {
+        if(pushV.size() != popV.size())      //入栈和出栈的元素数量必须相同
+        return false;
+        stack<int> st;
+        int pushi=0,popi=0;
+        while(pushi<pushV.size())
+        {
+            st.push(pushV[pushi]);
+            ++pushi;
+            while(!st.empty() && st.top()==popV[popi])
+            {
+               st.pop();
+               ++popi;
+            }
+        }
+        return st.empty();
+    }
+};
+//方法2.
+class Solution {
+public:
+ bool IsPopOrder(vector<int> pushV,vector<int> popV) {
+ //入栈和出栈的元素个数必须相同
+ if(pushV.size() != popV.size())
+ return false;
+
+ // 用s来模拟入栈与出栈的过程
+ int outIdx = 0;
+ int inIdx = 0;
+ stack<int> s;
+
+ while(outIdx < popV.size())
+ {
+ // 如果s是空，或者栈顶元素与出栈的元素不相等，就入栈
+ while(s.empty() || s.top() != popV[outIdx])
+ {
+ if(inIdx < pushV.size())
+ s.push(pushV[inIdx++]);
+ else
+ return false;
+ }
+
+ // 栈顶元素与出栈的元素相等，出栈
+ s.pop();
+ outIdx++;
+ }
+
+ return true;
+ }
+};
+
+//题目：逆波兰表达式求值
+根据 逆波兰表示法，求表达式的值。
+有效的算符包括 +、-、*、/ 。每个运算对象可以是整数，也可以是另一个逆波兰表达式。
+说明：
+整数除法只保留整数部分。
+给定逆波兰表达式总是有效的。换句话说，表达式总会得出有效数值且不存在除数为 0 的情况。
+class Solution {
+public:
+ int evalRPN(vector<string>& tokens) {
+       stack<int> s;
+      for (size_t i = 0; i < tokens.size(); ++i)
+     {
+          string& str = tokens[i];
+         // str为数字
+         if (!("+" == str || "-" == str || "*" == str || "/" == str))
+        {
+              s.push(atoi(str.c_str()));
+        }
+       else
+      {
+          // str为操作符
+         int right = s.top();
+         s.pop();
+         int left = s.top();
+         s.pop();
+        switch (str[0])
+       {
+          case '+':
+          s.push(left + right);
+          break;
+          case '-':
+         s.push(left - right);
+         break;
+         case '*':
+         s.push(left * right);
+         break;
+         case '/':
+         // 题目说明了不存在除数为0的情况
+         s.push(left / right);
+         break;
+      }
+    }
+   }
+ return s.top();
+ }
+};
