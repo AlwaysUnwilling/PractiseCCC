@@ -1,0 +1,26 @@
+//题目：电话号码的字母组合：
+给定一个仅包含数字?2-9?的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+class Solution {
+public:
+    string tmp;
+    vector<string> res;
+    vector<string> board={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    void DFS(int pos,string digits){
+        if(pos==digits.size()){
+            res.push_back(tmp);
+            return;
+        }
+        int num=digits[pos]-'0';
+        for(int i=0;i<board[num].size();i++){
+            tmp.push_back(board[num][i]);
+            DFS(pos+1,digits);
+            tmp.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        if(digits.size()==0) return res;
+        DFS(0,digits);
+        return res;
+    }
+};
