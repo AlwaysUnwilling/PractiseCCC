@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "c++_二叉树进阶", "c++_二叉树进阶.vcxproj", "{F7D91C95-AE04-4A22-8654-05D79CF819DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Debug|x64.ActiveCfg = Debug|x64
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Debug|x64.Build.0 = Debug|x64
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Debug|x86.ActiveCfg = Debug|Win32
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Debug|x86.Build.0 = Debug|Win32
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Release|x64.ActiveCfg = Release|x64
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Release|x64.Build.0 = Release|x64
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Release|x86.ActiveCfg = Release|Win32
+		{F7D91C95-AE04-4A22-8654-05D79CF819DC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BDC510D-D00D-40A3-AB40-20439F8957F2}
+	EndGlobalSection
+EndGlobal
