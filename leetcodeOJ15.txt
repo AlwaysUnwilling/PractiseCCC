@@ -1,0 +1,145 @@
+//二叉树的层序遍历：
+给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+       vector<vector<int>> vv;
+        if(root==nullptr)
+        return vv;
+       queue<TreeNode*> q;
+       TreeNode* cur=root;
+       q.push(root);
+       while(!q.empty())
+       {
+           int size=q.size();
+            vector<int> v;
+           for(int i=0;i<size;++i)
+           {
+                TreeNode* front=q.front();
+                q.pop();
+                if(front->left)
+                {
+                    q.push(front->left);
+                }
+                if(front->right)
+                {
+                    q.push(front->right);
+                }
+                v.push_back(front->val);
+           }
+           vv.push_back(v);
+       }
+       return vv;
+    }
+};
+
+//二叉树的层序遍历 II:
+给定一个二叉树，返回其节点值自底向上的层序遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+       vector<vector<int>> vv;
+        if(root==nullptr)
+        return vv;
+       queue<TreeNode*> q;
+       TreeNode* cur=root;
+       q.push(root);
+       while(!q.empty())
+       {
+           int size=q.size();
+            vector<int> v;
+           for(int i=0;i<size;++i)
+           {
+                TreeNode* front=q.front();
+                q.pop();
+                if(front->left)
+                {
+                    q.push(front->left);
+                }
+                if(front->right)
+                {
+                    q.push(front->right);
+                }
+                v.push_back(front->val);
+           }
+           vv.push_back(v);
+        }
+        reverse(vv.begin(),vv.end());
+        return vv;
+    }
+};
+
+
+//二叉树的最近公共祖先：给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
+ //分析：公共祖先的满足特征：1、p是q的孩子，则q是祖先，反之亦然；
+ //                          2、p和q分别是我的左右子树中的结点，则我就是祖先；
+//         情况1：如果是搜索二叉树：a、一个比我小，一个比我大，则我就是祖先；
+//                                b、都比我小，递归到我的左子树中去找祖先；
+//                                c、都比我大，递归到我的右子树中去找祖先；
+//         情况2：三叉链(每个结点都包含一个父节点指针)：顺着各自的父节点指针去往回找，相遇了的结点就是最近的祖先，
+//                转化为类似俩个链表的相交；
+//         情况3：普通二叉树: a、一个在我的左子树，一个在我的右子树，则我就是祖先；
+//                           b、都在左子树，递归到左子树中查找；
+//                           c、都在右子树，递归到右子树中查找；
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool Find(TreeNode* root,TreeNode* child)
+    {
+        if(root==nullptr)
+        return false;
+        return root==child
+               || Find(root->left,child)
+               || Find(root->right,child);
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+      if(root==nullptr)
+      return nullptr;
+      if(root==q || root==p)
+      return root;
+      bool pInLeft,pInRight,qInLeft,qInRight;
+      pInLeft=Find(root->left,p);
+      pInRight=!pInLeft;
+      qInLeft=Find(root->left,q);
+      qInRight=!qInLeft;
+      if((pInLeft && qInRight) || (pInRight && qInLeft))
+      return root;
+      if(pInLeft && qInLeft)
+       return lowestCommonAncestor(root->left,p,q);
+      if(pInRight && qInRight)
+       return lowestCommonAncestor(root->right,p,q);
+
+      return nullptr;
+    }
+};
