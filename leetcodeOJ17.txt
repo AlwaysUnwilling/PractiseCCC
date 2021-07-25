@@ -1,0 +1,116 @@
+//非递归=》二叉树的前序遍历
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> v;
+        stack<TreeNode*> s;
+        TreeNode* cur=root;
+        while(cur || !s.empty())
+        {
+            //模拟递归的访问来实现非递归：利用栈来存储左路结点。
+            //1.先访问树的左路结点
+            //2.再访问左路结点的右子树
+            while(cur)
+            {
+                v.push_back(cur->val);
+                s.push(cur);
+                cur=cur->left;
+            }
+           //取栈中的左路结点的右子树出来访问
+            TreeNode* top=s.top();
+            s.pop();
+            cur=top->right;
+        }
+        return v;
+    }
+};
+
+//二叉树的中序遍历：非递归遍历：给定一个二叉树的根节点 root ，返回它的 中序 遍历。
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+      vector<int> v;
+      stack<TreeNode*> s;
+      TreeNode* cur=root;
+      while(cur || !s.empty())
+      {
+          while(cur)
+          {
+              s.push(cur);
+              cur=cur->left;
+          }
+          TreeNode* top=s.top();
+          s.pop();
+          v.push_back(top->val);
+          cur=top->right;
+      }
+      return v;
+    }
+};
+
+//二叉树的后序遍历：非递归实现
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+      vector<int> v;
+      stack<TreeNode*> s;
+      TreeNode* cur=root;
+      TreeNode* lastNode=nullptr;  //记录最近访问的结点
+      //循坏开始，cur指向结点，就开始了访问该树
+      while(cur || !s.empty())
+      {
+          //1.左路结点入栈
+          while(cur)
+          {
+              s.push(cur);
+              cur=cur->left;
+          }
+          //2.取出栈中结点，访问该节点的右子树
+          TreeNode* top=s.top();
+          if(top->right==nullptr || lastNode==top->right)   //如果取出的结点右子树为空，那么该结点可以访问(插入v)，并且从栈中弹出该结点
+          {
+              v.push_back(top->val);//访问结点
+              lastNode=top;  //重置lastNode为正在被访问的结点
+              s.pop();  //弹出被访问完的结点
+          }
+          else  //如果该结点的右子树不为空，那么要先访问它的右子树，然后才能访问该结点
+          {
+              cur=top->right;  //访问该结点的右子树
+          }
+      }
+      return v;
+    }
+};
