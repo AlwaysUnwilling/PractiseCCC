@@ -1,0 +1,29 @@
+//前K个高频单词：
+给一非空的单词列表，返回前 k 个出现次数最多的单词。
+返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率，按字母顺序排序。
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+      //统计次数
+      map<string,int> countMap;
+      for(auto e:words)
+      {
+          countMap[e]++;
+      }
+      //按次数排序，通过仿函数控制从大到小
+      multimap<int,string,greater<int>> sortMap;
+      for(auto kv:countMap)
+      {
+          sortMap.insert(make_pair(kv.second,kv.first));
+      }
+
+      vector<string> v;
+      for(auto& e:sortMap)
+      {
+          v.push_back(e.second);
+          if(--k==0)
+          break;
+      }
+      return v;
+    }
+};
