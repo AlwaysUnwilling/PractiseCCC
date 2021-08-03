@@ -1,0 +1,29 @@
+//电话号码的字母组合:给定一个仅包含数字?2-9?的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+class Solution {
+public:
+    void _letterCombinations(vector<string>& vsstr,vector<string>& result,string& tmp,string& digits,int di)
+    {
+        if(di == digits.size())
+        {
+            result.push_back(tmp);
+            return;
+        }
+        for(int i=0;i<vsstr[digits[di]-'0'].size();++i)
+        {
+            tmp.push_back(vsstr[digits[di]-'0'][i]);
+            _letterCombinations(vsstr,result,tmp,digits,di+1); 
+            tmp.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        vector<string> vsstr={"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        vector<string> result;
+        string tmp;
+        if(digits.size()==0)
+        return result;
+        int di=0;
+        _letterCombinations(vsstr,result,tmp,digits,di);
+        return result;
+    }
+};
