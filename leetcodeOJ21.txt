@@ -1,0 +1,49 @@
+//重复 N 次的元素：在大小为 2N 的数组 A 中有 N+1 个不同的元素，其中有一个元素重复了 N 次。
+返回重复了 N 次的那个元素。
+class Solution {
+public:
+    int repeatedNTimes(vector<int>& nums) {
+        unordered_map<int,int> countMap;
+        for(auto e:nums)
+        {
+            countMap[e]++;
+        }
+        int size=nums.size()/2;
+        for(auto kv:countMap)
+        {
+            if(kv.second==size)
+            {
+                return kv.first;
+            }
+        }
+        return -1;
+    }
+};
+
+//两个数组的交集:给定两个数组，编写一个函数来计算它们的交集。
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> us1;
+        //去重
+        for(auto e:nums1)
+        {
+            us1.insert(e);
+        }
+        unordered_set<int> us2;
+       //去重
+        for(auto e:nums2)
+        {
+            us2.insert(e);
+        }
+        vector<int> v;
+        for(auto e:us1)
+        {
+            if(us2.find(e)!=us2.end())
+            {
+                v.push_back(e);
+            }
+        }
+        return v;
+    }
+};
