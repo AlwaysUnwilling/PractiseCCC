@@ -1,0 +1,56 @@
+//两数之和:给定一个整数数组 nums?和一个整数目标值 target，请你在该数组中找出 和为目标值 target? 的那?两个?整数，并返回它们的数组下标。
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+你可以按任意顺序返回答案。
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> v;
+        if(nums.size()<2)
+        {
+            return v;
+        }
+         //遍历数组如果hashmap中能找到target-nums[i]那么直接将i和
+        //target-nums[i]对应的下标插入数组v返回；否则将i和target-nums[i]
+        //插入hashmap中
+        for(int i=0;i<nums.size();++i)
+        {
+            for(int j=0;j<nums.size() && i!=j;++j)
+            {
+                if(nums[i]+nums[j]==target)
+                {
+                    v.push_back(i);
+                    v.push_back(j);
+                }
+            }
+        }
+        return v;
+    }
+};
+
+//方法2.哈希map
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> hashmap;
+        vector<int> v;
+        if(nums.size()<2)
+        {
+            return v;
+        }
+        for(int i=0;i<nums.size();++i)
+        {
+            auto it=hashmap.find(target-nums[i]);
+            if(it!=hashmap.end())
+            {
+                v.push_back(i);
+                v.push_back(it->second);
+                return v;
+            }
+            else
+            {
+                hashmap.insert(make_pair(nums[i],i));
+            }
+        }
+        return v;
+    }
+};
