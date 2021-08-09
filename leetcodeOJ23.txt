@@ -1,0 +1,69 @@
+//三数之和：给你一个包含 n 个整数的数组?nums，判断?nums?中是否存在三个元素 a，b，c ，使得?a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
+注意：答案中不可以包含重复的三元组。
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> vv;
+        if(nums.size()<3)
+        {
+            return vv;
+        }
+        sort(nums.begin(),nums.end());               
+        for(int i=nums.size()-1;i>0;--i)
+        {
+            int numsMax=nums[i];
+            if(i<nums.size()-1 && nums[i]==nums[i+1])
+            {
+                continue;
+            }
+            if(numsMax>=0)
+            {
+                int left=0,right=i-1;
+                while(left<right)
+                {
+                    if(nums[left]+nums[right]+numsMax>0)
+                    {
+
+                       right--;
+                    }
+                    else if(nums[left]+nums[right]+numsMax<0)
+                    {
+                       left++;
+                    }
+                    else
+                    {
+                        vector<int> v;
+                        v.push_back(nums[left]);
+                        v.push_back(nums[right]);
+                        v.push_back(numsMax);
+                        vv.push_back(v);
+                        //去重，left向右找到第一个大于nums[left]的值；right向左走,找到第一个小于nums[right]的值
+                        int tmpleft=nums[left++],tmpright=nums[right--];
+                        while(left<right)
+                        {
+                            if(nums[left]>tmpleft)
+                            {
+                                break;
+                            }
+                            left++;
+                        }
+                        while(left<right)
+                        {
+                            if(nums[right]<tmpright)
+                            {
+                                break;
+                            }
+                            right--;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+       return vv;
+    }
+};
+
