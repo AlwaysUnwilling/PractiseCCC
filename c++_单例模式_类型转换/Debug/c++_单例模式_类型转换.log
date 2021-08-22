@@ -1,0 +1,6 @@
+﻿  test.cpp
+D:\MyCode\c++_单例模式_类型转换\test.cpp(214,6): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+D:\MyCode\c++_单例模式_类型转换\test.cpp(288,12): error C2440: “初始化”: 无法从“int”转换为“AA”
+D:\MyCode\c++_单例模式_类型转换\test.cpp(288,12): message : class“AA”的构造函数声明为“explicit”
+D:\MyCode\c++_单例模式_类型转换\test.cpp(289,11): error C3445: "AA" 的复制列表初始化不能使用显式构造函数
+D:\MyCode\c++_单例模式_类型转换\test.cpp(269,2): message : 参见“AA::AA”的声明
