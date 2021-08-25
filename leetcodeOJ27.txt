@@ -1,0 +1,38 @@
+寻找两个正序数组的中位数：给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> nums3;
+        int m=nums1.size();
+        int n=nums2.size();
+        nums3.resize(m+n);
+        int nums1_cur=0,nums2_cur=0,nums3_cur=0;
+        while(nums1_cur<m && nums2_cur<n)
+        {
+            if(nums1[nums1_cur]<=nums2[nums2_cur])
+            {
+                nums3[nums3_cur++]=nums1[nums1_cur++];
+            }
+            else
+            {
+                nums3[nums3_cur++]=nums2[nums2_cur++];
+            }
+        }
+        while(nums2_cur<n)
+        {
+            nums3[nums3_cur++]=nums2[nums2_cur++];
+        }
+        while(nums1_cur<m)
+        {
+            nums3[nums3_cur++]=nums1[nums1_cur++];
+        }
+        if((m+n)%2==0)
+        {
+            return (double)(nums3[(m+n)/2]+nums3[(m+n)/2-1])/2;
+        }
+        else
+        {
+            return (double)nums3[(m+n)/2];
+        }
+    }
+};
