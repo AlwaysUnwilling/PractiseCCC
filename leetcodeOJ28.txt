@@ -1,0 +1,76 @@
+最长回文子串：给你一个字符串 s，找到 s 中最长的回文子串。
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        string ans;
+        if(s.size()==0)
+        {
+            return ans;
+        }
+        if(s.size()==1)
+        {
+            return s;
+        }
+        for(int si=0;si<s.size();++si)
+        {
+            int left=si-1,right=si+1;
+
+            //1.回文串个数位奇数
+            int count1 = 1;
+            while(left>=0 && right<s.size() && s[left]==s[right])
+            {
+                count1+=2;
+                left--;
+                right++;
+            }
+            //2.回文串个数是偶数
+            int begin=si-1;int end=si+2;
+            int count2 = 0;
+            if(si+1<s.size() && s[si]==s[si+1])
+            {
+                count2=2;
+                while(begin>=0 && end<s.size() && s[begin]==s[end])
+                {
+                    count2+=2;
+                    begin--;
+                    end++;
+                }
+            }
+            //恢复四个指针的合法性
+            left++;right--;
+            begin++;end--;
+            //更新新的回文串
+            if(count1>count2)
+            {
+                if(count1>ans.size())
+                {
+                    while(!ans.empty())
+                    {
+                        ans.erase();
+                    }
+                    while(left<=right)
+                    {
+                        ans.push_back(s[left++]);
+                    }
+                }
+
+            }
+            else
+            {
+                if(count2>ans.size())
+                {
+                    while(!ans.empty())
+                    {
+                        ans.erase();
+                    }
+                    while(begin<=end)
+                    {
+                        ans.push_back(s[begin++]);
+                    }
+                }
+
+            }
+        }
+        return ans;
+    }
+};
