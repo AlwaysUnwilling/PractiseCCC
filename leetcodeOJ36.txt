@@ -1,0 +1,42 @@
+删除链表的倒数第 N 个结点：给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(head==nullptr)
+        {
+            return head;
+        }
+        ListNode* cur=head;
+        ListNode* n_cur=head;
+        ListNode* prev=nullptr;
+        while(n-- && n_cur)
+        {
+            n_cur=n_cur->next;
+        }
+        while(n_cur)
+        {
+            n_cur=n_cur->next;
+            prev=cur;
+            cur=cur->next;
+        }
+        if(prev==nullptr)
+        {
+            ListNode* newhead=head->next;
+            delete head;
+            return newhead;
+        }
+        prev->next=cur->next;
+        delete cur;
+        return head;
+    }
+};
