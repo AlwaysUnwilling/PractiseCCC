@@ -1,0 +1,73 @@
+四数之和：
+给你一个由 n 个整数组成的数组 nums ，和一个目标值 target 。请你找出并返回满足下述全部条件且不重复的四元组 [nums[a], nums[b], nums[c], nums[d]] ：
+0 <= a, b, c, d < n
+a、b、c 和 d 互不相同
+nums[a] + nums[b] + nums[c] + nums[d] == target
+你可以按 任意顺序 返回答案 。
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> ans;
+        if(nums.size()<4)
+        {
+            return ans;
+        }
+        int size=nums.size();
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<size-1;++i)
+        {
+            if(i>0 && nums[i]==nums[i-1])
+            {
+                continue;
+            }
+            for(int j=size-1;j>i;--j)
+            {
+                if(j<size-1 && nums[j]==nums[j+1])
+                {
+                    continue;
+                }
+                int left=i+1,right=j-1;
+                while(left<right)
+                {
+                    if((long long)nums[i]+(long long)nums[j]+(long long)nums[left]+(long long)nums[right]==(long long)target)
+                    {
+                        ans.push_back({nums[i],nums[j],nums[left],nums[right]});
+                        int tmpleft=nums[left++],tmpright=nums[right--];
+                        while(left<right)
+                        {
+                            if(tmpleft==nums[left])
+                            {
+                                left++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        while(left<right)
+                        {
+                            if(tmpright==nums[right])
+                            {
+                                right--;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else if((long long)nums[i]+(long long)nums[j]+(long long)nums[left]+(long long)nums[right]>(long long)target)
+                    {
+                        right--;
+                    }
+                    else 
+                    {
+                        left++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
