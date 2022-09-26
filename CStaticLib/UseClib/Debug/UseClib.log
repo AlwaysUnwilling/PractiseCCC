@@ -1,0 +1,4 @@
+﻿  useClib.cpp
+useClib.obj : error LNK2019: 无法解析的外部符号 "int __cdecl Clib_sub(int,int)" (?Clib_sub@@YAHHH@Z)，函数 _main 中引用了该符号
+useClib.obj : error LNK2019: 无法解析的外部符号 "int __cdecl Clib_add(int,int)" (?Clib_add@@YAHHH@Z)，函数 _main 中引用了该符号
+D:\MyCode\EdoyunProject\CStaticLib\Debug\UseClib.exe : fatal error LNK1120: 2 个无法解析的外部命令
