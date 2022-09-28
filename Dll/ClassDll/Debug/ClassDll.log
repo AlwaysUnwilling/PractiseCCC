@@ -1,0 +1,6 @@
+﻿  pch.cpp
+  dllmain.cpp
+  myClassdll.h
+  正在生成代码...
+    正在创建库 D:\MyCode\EdoyunProject\Dll\Debug\ClassDll.lib 和对象 D:\MyCode\EdoyunProject\Dll\Debug\ClassDll.exp
+  ClassDll.vcxproj -> D:\MyCode\EdoyunProject\Dll\Debug\ClassDll.dll

@@ -1,0 +1,5 @@
+LIBRARY Dll
+EXPORTS
+	Cdll_add @1
+	Cdll_sub @2
+	Cdll_mul @3
