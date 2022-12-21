@@ -1,0 +1,5 @@
+LIBRARY  Win32DLL
+EXPORTS
+	CppDll_sum @1
+	CppDll_sub @2
+	CppDll_mul @3
